@@ -1,0 +1,12 @@
+{
+  "blender": {
+    "transport": "stdio",
+    "command": "blender-mcp",
+    "args": []
+  },
+  "anvil": {
+    "transport": "stdio",
+    "command": "anvil-tools",
+    "args": []
+  }
+}

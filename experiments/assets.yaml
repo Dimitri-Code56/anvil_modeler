@@ -1,0 +1,31 @@
+# Conjunto de teste do comparativo.
+# Cada asset pode ter: style (realista | cel-shading), project (ex.: elpis) e concept (imagem pronta).
+# Sem concept, ele é gerado uma vez e reaproveitado em todos os modos.
+assets:
+  # --- genéricos, estilo realista ------------------------------------------
+  - name: cadeira_madeira
+    style: realista
+    description: Cadeira de madeira de jantar com encosto de ripas verticais curvadas, assento levemente côncavo e pernas torneadas com travessas.
+  - name: luminaria_mesa
+    style: realista
+    description: Luminária de mesa articulada de metal pintado de verde, base pesada redonda, dois braços com molas e cúpula cônica.
+  - name: carro_sedan
+    style: realista
+    description: Sedan compacto vermelho de quatro portas, faróis afilados, rodas de liga leve de cinco raios e vidros escurecidos.
+  - name: casa_terrea
+    style: realista
+    description: Casa térrea pequena de tijolos aparentes com telhado de duas águas em telha cerâmica, porta de madeira, duas janelas com moldura branca e uma varanda com pilares.
+
+  # --- projeto Elpis (regras do jogo + cel-shading) -------------------------
+  - name: caixote_suprimentos
+    style: cel-shading
+    project: elpis
+    description: Caixote de suprimentos da base lunar, metal pesado, cantos reforçados, alças laterais e painel com luz de status na tampa.
+  - name: capacete_bigorna
+    style: cel-shading
+    project: elpis
+    description: Capacete do minerador-mercenário Bigorna, estilo power armor, visor emissivo horizontal, gorjal alto e lanterna acoplada na lateral.
+  - name: buggy_torreta
+    style: cel-shading
+    project: elpis
+    description: Buggy lunar de dois lugares com torreta traseira, rodas grandes com pneus de banda larga, gaiola de proteção e faróis no para-choque.

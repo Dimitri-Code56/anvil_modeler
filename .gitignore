@@ -1,0 +1,16 @@
+.env
+.venv/
+.venv-wsl/
+.venv*/
+__pycache__/
+*.pyc
+runs/
+config/mcp_servers.json
+*.blend1
+.pytest_cache/
+*.egg-info/
+skills/_to_delete/
+data/memoria.sqlite*
+data/conversas.json
+data/_to_delete/
+data/avaliacao_rag.json

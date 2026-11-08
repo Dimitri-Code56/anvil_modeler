@@ -1,0 +1,2032 @@
+[
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/index.md",
+  "titulo": "Object Modifiers",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/index.html",
+  "chars": 1486
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/index.md",
+  "titulo": "Shader Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/index.html",
+  "chars": 2249
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/meshes/structure.md",
+  "titulo": "Mesh Structure",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/meshes/structure.html",
+  "chars": 8297
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/introduction.md",
+  "titulo": "Introduction",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/introduction.html",
+  "chars": 8523
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/common_options.md",
+  "titulo": "Common Modifier Options",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/common_options.html",
+  "chars": 3861
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/index.md",
+  "titulo": "Edit",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/index.html",
+  "chars": 195
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/data_transfer.md",
+  "titulo": "Data Transfer Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/data_transfer.html",
+  "chars": 8921
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/mesh_cache.md",
+  "titulo": "Mesh Cache Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/mesh_cache.html",
+  "chars": 2935
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/mesh_sequence_cache.md",
+  "titulo": "Mesh Sequence Cache Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/mesh_sequence_cache.html",
+  "chars": 2738
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/uv_project.md",
+  "titulo": "UV Project Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/uv_project.html",
+  "chars": 1772
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/uv_warp.md",
+  "titulo": "UV Warp Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/uv_warp.html",
+  "chars": 1678
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/weight_edit.md",
+  "titulo": "Vertex Weight Edit Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/weight_edit.html",
+  "chars": 3010
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/weight_mix.md",
+  "titulo": "Vertex Weight Mix Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/weight_mix.html",
+  "chars": 3016
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/modify/weight_proximity.md",
+  "titulo": "Vertex Weight Proximity Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/modify/weight_proximity.html",
+  "chars": 2770
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/index.md",
+  "titulo": "Generate",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/index.html",
+  "chars": 462
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/array.md",
+  "titulo": "Array Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/array.html",
+  "chars": 4475
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/array_legacy.md",
+  "titulo": "Array (Legacy) Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/array_legacy.html",
+  "chars": 4453
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/bevel.md",
+  "titulo": "Bevel Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/bevel.html",
+  "chars": 8639
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/booleans.md",
+  "titulo": "Boolean Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/booleans.html",
+  "chars": 3205
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/build.md",
+  "titulo": "Build Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/build.html",
+  "chars": 1493
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/curve_to_tube.md",
+  "titulo": "Curve to Tube Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/curve_to_tube.html",
+  "chars": 3068
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/decimate.md",
+  "titulo": "Decimate Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/decimate.html",
+  "chars": 3154
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/edge_split.md",
+  "titulo": "Edge Split Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/edge_split.html",
+  "chars": 1453
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/mask.md",
+  "titulo": "Mask Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/mask.html",
+  "chars": 1125
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/mesh_to_volume.md",
+  "titulo": "Mesh to Volume Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/mesh_to_volume.html",
+  "chars": 1334
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/mirror.md",
+  "titulo": "Mirror Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/mirror.html",
+  "chars": 4290
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/multiresolution.md",
+  "titulo": "Multiresolution Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/multiresolution.html",
+  "chars": 7165
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/remesh.md",
+  "titulo": "Remesh Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/remesh.html",
+  "chars": 2166
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/scatter_on_surface.md",
+  "titulo": "Scatter on Surface Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/scatter_on_surface.html",
+  "chars": 4416
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/screw.md",
+  "titulo": "Screw Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/screw.html",
+  "chars": 1490
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/skin.md",
+  "titulo": "Skin Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/skin.html",
+  "chars": 3841
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/solidify.md",
+  "titulo": "Solidify Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/solidify.html",
+  "chars": 6709
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/subdivision_surface.md",
+  "titulo": "Subdivision Surface Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/subdivision_surface.html",
+  "chars": 7522
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/triangulate.md",
+  "titulo": "Triangulate Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/triangulate.html",
+  "chars": 1088
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/volume_to_mesh.md",
+  "titulo": "Volume to Mesh Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/volume_to_mesh.html",
+  "chars": 1458
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/weld.md",
+  "titulo": "Weld Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/weld.html",
+  "chars": 992
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/generate/wireframe.md",
+  "titulo": "Wireframe Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/generate/wireframe.html",
+  "chars": 2991
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/index.md",
+  "titulo": "Deform",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/index.html",
+  "chars": 355
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/armature.md",
+  "titulo": "Armature Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/armature.html",
+  "chars": 3514
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/cast.md",
+  "titulo": "Cast Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/cast.html",
+  "chars": 2458
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/curve.md",
+  "titulo": "Curve Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/curve.html",
+  "chars": 1853
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/displace.md",
+  "titulo": "Displace Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/displace.html",
+  "chars": 2572
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/hooks.md",
+  "titulo": "Hook Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/hooks.html",
+  "chars": 2403
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/laplacian_deform.md",
+  "titulo": "Laplacian Deform Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/laplacian_deform.html",
+  "chars": 3219
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/lattice.md",
+  "titulo": "Lattice Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/lattice.html",
+  "chars": 1766
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/mesh_deform.md",
+  "titulo": "Mesh Deform Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/mesh_deform.html",
+  "chars": 3421
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/shrinkwrap.md",
+  "titulo": "Shrinkwrap Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/shrinkwrap.html",
+  "chars": 4442
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/simple_deform.md",
+  "titulo": "Simple Deform Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/simple_deform.html",
+  "chars": 5561
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/smooth.md",
+  "titulo": "Smooth Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/smooth.html",
+  "chars": 1638
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/corrective_smooth.md",
+  "titulo": "Smooth Corrective Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/corrective_smooth.html",
+  "chars": 2416
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/laplacian_smooth.md",
+  "titulo": "Smooth Laplacian Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/laplacian_smooth.html",
+  "chars": 4238
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/surface_deform.md",
+  "titulo": "Surface Deform Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/surface_deform.html",
+  "chars": 2891
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/volume_displace.md",
+  "titulo": "Volume Displace Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/volume_displace.html",
+  "chars": 956
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/warp.md",
+  "titulo": "Warp Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/warp.html",
+  "chars": 2083
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/deform/wave.md",
+  "titulo": "Wave Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/wave.html",
+  "chars": 3843
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/normals/index.md",
+  "titulo": "Normals",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/normals/index.html",
+  "chars": 37
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/normals/normal_edit.md",
+  "titulo": "Normal Edit Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/normals/normal_edit.html",
+  "chars": 2674
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/normals/weighted_normal.md",
+  "titulo": "Weighted Normal Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/normals/weighted_normal.html",
+  "chars": 2150
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/normals/smooth_by_angle.md",
+  "titulo": "Smooth By Angle Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/normals/smooth_by_angle.html",
+  "chars": 500
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/index.md",
+  "titulo": "Physics",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/index.html",
+  "chars": 186
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/cloth.md",
+  "titulo": "Cloth Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/cloth.html",
+  "chars": 580
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/collision.md",
+  "titulo": "Collision Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/collision.html",
+  "chars": 491
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/dynamic_paint.md",
+  "titulo": "Dynamic Paint Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/dynamic_paint.html",
+  "chars": 284
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/explode.md",
+  "titulo": "Explode Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/explode.html",
+  "chars": 2916
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/fluid.md",
+  "titulo": "Fluid Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/fluid.html",
+  "chars": 518
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/ocean.md",
+  "titulo": "Ocean Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/ocean.html",
+  "chars": 8785
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/particle_instance.md",
+  "titulo": "Particle Instance Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/particle_instance.html",
+  "chars": 6384
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/particle_system.md",
+  "titulo": "Particle System Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/particle_system.html",
+  "chars": 799
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/physics/soft_body.md",
+  "titulo": "Soft Body Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/physics/soft_body.html",
+  "chars": 330
+ },
+ {
+  "arquivo": "data/docs/manual/modeling/modifiers/geometry_nodes.md",
+  "titulo": "Geometry Nodes Modifier",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/modeling/modifiers/geometry_nodes.html",
+  "chars": 3455
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/introduction.md",
+  "titulo": "Introduction",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/introduction.html",
+  "chars": 2185
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/index.md",
+  "titulo": "Input Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/index.html",
+  "chars": 433
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/index.md",
+  "titulo": "Input Constant Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/index.html",
+  "chars": 133
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/boolean.md",
+  "titulo": "Boolean Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/boolean.html",
+  "chars": 204
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/color.md",
+  "titulo": "Color Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/color.html",
+  "chars": 446
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/integer.md",
+  "titulo": "Integer Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/integer.html",
+  "chars": 191
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/menu.md",
+  "titulo": "Menu Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/menu.html",
+  "chars": 504
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/value.md",
+  "titulo": "Value Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/value.html",
+  "chars": 567
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/constant/vector.md",
+  "titulo": "Vector Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/constant/vector.html",
+  "chars": 617
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/ao.md",
+  "titulo": "Ambient Occlusion Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/ao.html",
+  "chars": 1579
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/attribute.md",
+  "titulo": "Attribute Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/attribute.html",
+  "chars": 3198
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/bevel.md",
+  "titulo": "Bevel Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/bevel.html",
+  "chars": 1571
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/camera_data.md",
+  "titulo": "Camera Data Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/camera_data.html",
+  "chars": 551
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/fresnel.md",
+  "titulo": "Fresnel Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/fresnel.html",
+  "chars": 1274
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/geometry.md",
+  "titulo": "Geometry Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/geometry.html",
+  "chars": 1436
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/hair_info.md",
+  "titulo": "Curves Info Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/hair_info.html",
+  "chars": 772
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/layer_weight.md",
+  "titulo": "Layer Weight Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/layer_weight.html",
+  "chars": 758
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/light_path.md",
+  "titulo": "Light Path Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/light_path.html",
+  "chars": 2994
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/object_info.md",
+  "titulo": "Object Info Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/object_info.html",
+  "chars": 1239
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/particle_info.md",
+  "titulo": "Particle Info Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/particle_info.html",
+  "chars": 1108
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/point_info.md",
+  "titulo": "Point Info",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/point_info.html",
+  "chars": 573
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/raycast.md",
+  "titulo": "Raycast Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/raycast.html",
+  "chars": 1941
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/scene_time.md",
+  "titulo": "Scene Time Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/scene_time.html",
+  "chars": 372
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/tangent.md",
+  "titulo": "Tangent Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/tangent.html",
+  "chars": 373
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/texture_coordinate.md",
+  "titulo": "Texture Coordinate Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/texture_coordinate.html",
+  "chars": 2364
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/uv_map.md",
+  "titulo": "UV Map Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/uv_map.html",
+  "chars": 815
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/vertex_color.md",
+  "titulo": "Color Attribute Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/vertex_color.html",
+  "chars": 613
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/volume_info.md",
+  "titulo": "Volume Info Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/volume_info.html",
+  "chars": 974
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/input/wireframe.md",
+  "titulo": "Wireframe Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/input/wireframe.html",
+  "chars": 608
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/output/index.md",
+  "titulo": "Output Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/output/index.html",
+  "chars": 338
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/output/aov.md",
+  "titulo": "AOV Output Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/output/aov.html",
+  "chars": 840
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/output/material.md",
+  "titulo": "Material Output Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/output/material.html",
+  "chars": 1695
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/output/light.md",
+  "titulo": "Light Output Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/output/light.html",
+  "chars": 1053
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/output/world.md",
+  "titulo": "World Output Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/output/world.html",
+  "chars": 888
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/index.md",
+  "titulo": "Shader Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/index.html",
+  "chars": 391
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/add.md",
+  "titulo": "Add Shader",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/add.html",
+  "chars": 289
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/background.md",
+  "titulo": "Background",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/background.html",
+  "chars": 333
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/diffuse.md",
+  "titulo": "Diffuse BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/diffuse.html",
+  "chars": 673
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/emission.md",
+  "titulo": "Emission",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/emission.html",
+  "chars": 1071
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/glass.md",
+  "titulo": "Glass BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/glass.html",
+  "chars": 2520
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/glossy.md",
+  "titulo": "Glossy BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/glossy.html",
+  "chars": 1894
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/hair.md",
+  "titulo": "Hair BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/hair.html",
+  "chars": 929
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/holdout.md",
+  "titulo": "Holdout",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/holdout.html",
+  "chars": 351
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/mix.md",
+  "titulo": "Mix Shader",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/mix.html",
+  "chars": 617
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/metallic.md",
+  "titulo": "Metallic BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/metallic.html",
+  "chars": 2943
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/principled.md",
+  "titulo": "Principled BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/principled.html",
+  "chars": 10575
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/hair_principled.md",
+  "titulo": "Principled Hair BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/hair_principled.html",
+  "chars": 7414
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/volume_principled.md",
+  "titulo": "Principled Volume",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/volume_principled.html",
+  "chars": 1220
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/ray_portal.md",
+  "titulo": "Ray Portal BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/ray_portal.html",
+  "chars": 2248
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/refraction.md",
+  "titulo": "Refraction BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/refraction.html",
+  "chars": 969
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/specular_bsdf.md",
+  "titulo": "Specular BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/specular_bsdf.html",
+  "chars": 2186
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/sss.md",
+  "titulo": "Subsurface Scattering",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/sss.html",
+  "chars": 2827
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/toon.md",
+  "titulo": "Toon BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/toon.html",
+  "chars": 836
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/translucent.md",
+  "titulo": "Translucent BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/translucent.html",
+  "chars": 491
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/transparent.md",
+  "titulo": "Transparent BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/transparent.html",
+  "chars": 730
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/sheen.md",
+  "titulo": "Sheen BSDF",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/sheen.html",
+  "chars": 1015
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/volume_absorption.md",
+  "titulo": "Volume Absorption",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/volume_absorption.html",
+  "chars": 480
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/volume_scatter.md",
+  "titulo": "Volume Scatter",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/volume_scatter.html",
+  "chars": 2200
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/shader/volume_coefficients.md",
+  "titulo": "Volume Coefficients",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/shader/volume_coefficients.html",
+  "chars": 2579
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/displacement/index.md",
+  "titulo": "Displacement Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/displacement/index.html",
+  "chars": 86
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/displacement/bump.md",
+  "titulo": "Bump Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/displacement/bump.html",
+  "chars": 1532
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/displacement/displacement.md",
+  "titulo": "Displacement Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/displacement/displacement.html",
+  "chars": 1413
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/displacement/normal_map.md",
+  "titulo": "Normal Map Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/displacement/normal_map.html",
+  "chars": 1775
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/displacement/vector_displacement.md",
+  "titulo": "Vector Displacement Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/displacement/vector_displacement.html",
+  "chars": 1949
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/index.md",
+  "titulo": "Texture Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/index.html",
+  "chars": 282
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/brick.md",
+  "titulo": "Brick Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/brick.html",
+  "chars": 1236
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/checker.md",
+  "titulo": "Checker Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/checker.html",
+  "chars": 933
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/environment.md",
+  "titulo": "Environment Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/environment.html",
+  "chars": 1916
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/gabor.md",
+  "titulo": "Gabor Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/gabor.html",
+  "chars": 4098
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/gradient.md",
+  "titulo": "Gradient Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/gradient.html",
+  "chars": 1070
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/ies.md",
+  "titulo": "IES Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/ies.html",
+  "chars": 710
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/image.md",
+  "titulo": "Image Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/image.html",
+  "chars": 4420
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/magic.md",
+  "titulo": "Magic Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/magic.html",
+  "chars": 705
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/noise.md",
+  "titulo": "Noise Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/noise.html",
+  "chars": 5589
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/sky.md",
+  "titulo": "Sky Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/sky.html",
+  "chars": 2396
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/voronoi.md",
+  "titulo": "Voronoi Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/voronoi.html",
+  "chars": 4346
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/wave.md",
+  "titulo": "Wave Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/wave.html",
+  "chars": 1670
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/textures/white_noise.md",
+  "titulo": "White Noise Texture Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/textures/white_noise.html",
+  "chars": 1877
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/index.md",
+  "titulo": "Color Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/index.html",
+  "chars": 237
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/blackbody.md",
+  "titulo": "Blackbody Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/blackbody.html",
+  "chars": 374
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/bright_contrast.md",
+  "titulo": "Brightness/Contrast Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/bright_contrast.html",
+  "chars": 1345
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/color_ramp.md",
+  "titulo": "Color Ramp Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/color_ramp.html",
+  "chars": 1449
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/gamma.md",
+  "titulo": "Gamma Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/gamma.html",
+  "chars": 409
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/hue_saturation.md",
+  "titulo": "Hue/Saturation/Value Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/hue_saturation.html",
+  "chars": 1361
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/invert_color.md",
+  "titulo": "Invert Color Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/invert_color.html",
+  "chars": 284
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/light_falloff.md",
+  "titulo": "Light Falloff Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/light_falloff.html",
+  "chars": 1171
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/mix.md",
+  "titulo": "Mix Color Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/mix.html",
+  "chars": 3990
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/rgb_curves.md",
+  "titulo": "RGB Curves Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/rgb_curves.html",
+  "chars": 2380
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/wavelength.md",
+  "titulo": "Wavelength Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/wavelength.html",
+  "chars": 357
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/combine_color.md",
+  "titulo": "Combine Color Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/combine_color.html",
+  "chars": 376
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/separate_color.md",
+  "titulo": "Separate Color Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/separate_color.html",
+  "chars": 369
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/rgb_to_bw.md",
+  "titulo": "RGB to BW Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/rgb_to_bw.html",
+  "chars": 363
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/color/shader_to_rgb.md",
+  "titulo": "Shader To RGB Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/color/shader_to_rgb.html",
+  "chars": 1212
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/index.md",
+  "titulo": "Utilities Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/index.html",
+  "chars": 126
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/index.md",
+  "titulo": "Math Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/index.html",
+  "chars": 67
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/clamp.md",
+  "titulo": "Clamp Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/clamp.html",
+  "chars": 731
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/float_curve.md",
+  "titulo": "Float Curve",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/float_curve.html",
+  "chars": 336
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/map_range.md",
+  "titulo": "Map Range Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/map_range.html",
+  "chars": 1511
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/math.md",
+  "titulo": "Math Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/math.html",
+  "chars": 3857
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/math/mix.md",
+  "titulo": "Mix Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/math/mix.html",
+  "chars": 1310
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/index.md",
+  "titulo": "Vector Nodes",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/index.html",
+  "chars": 252
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/combine_xyz.md",
+  "titulo": "Combine XYZ Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/combine_xyz.html",
+  "chars": 243
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/mix_vector.md",
+  "titulo": "Mix Vector Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/mix_vector.html",
+  "chars": 1317
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/separate_xyz.md",
+  "titulo": "Separate XYZ Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/separate_xyz.html",
+  "chars": 206
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/mapping.md",
+  "titulo": "Mapping Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/mapping.html",
+  "chars": 2575
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/normal.md",
+  "titulo": "Normal Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/normal.html",
+  "chars": 675
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/curves.md",
+  "titulo": "Vector Curves Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/curves.html",
+  "chars": 511
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/radial_tiling.md",
+  "titulo": "Radial Tiling Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/radial_tiling.html",
+  "chars": 3808
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/vector_math.md",
+  "titulo": "Vector Math Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/vector_math.html",
+  "chars": 3683
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/vector_rotate.md",
+  "titulo": "Vector Rotate Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/vector_rotate.html",
+  "chars": 1014
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/transform.md",
+  "titulo": "Vector Transform Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/transform.html",
+  "chars": 493
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/combine_cylindrical.md",
+  "titulo": "Combine Cylindrical Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/combine_cylindrical.html",
+  "chars": 631
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/combine_spherical.md",
+  "titulo": "Combine Spherical Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/combine_spherical.html",
+  "chars": 722
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/separate_cylindrical.md",
+  "titulo": "Separate Cylindrical Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/separate_cylindrical.html",
+  "chars": 781
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/vector/separate_spherical.md",
+  "titulo": "Separate Spherical Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/vector/separate_spherical.html",
+  "chars": 830
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/repeat.md",
+  "titulo": "Repeat Zone",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/repeat.html",
+  "chars": 1847
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/implicit_conversion.md",
+  "titulo": "Implicit Conversion",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/implicit_conversion.html",
+  "chars": 961
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/closure.md",
+  "titulo": "Closure",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/closure.html",
+  "chars": 4530
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/evaluate_closure.md",
+  "titulo": "Evaluate Closure",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/evaluate_closure.html",
+  "chars": 5181
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/bundle/combine_bundle.md",
+  "titulo": "Combine Bundle Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/bundle/combine_bundle.html",
+  "chars": 1404
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/bundle/separate_bundle.md",
+  "titulo": "Separate Bundle Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/bundle/separate_bundle.html",
+  "chars": 1381
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/bundle/join_bundle.md",
+  "titulo": "Join Bundle Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/bundle/join_bundle.html",
+  "chars": 728
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/menu_switch.md",
+  "titulo": "Menu Switch Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/menu_switch.html",
+  "chars": 2659
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/utilities/script.md",
+  "titulo": "Script Node",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/utilities/script.html",
+  "chars": 2026
+ },
+ {
+  "arquivo": "data/docs/manual/render/shader_nodes/groups.md",
+  "titulo": "Group",
+  "fonte": "manual",
+  "url": "https://docs.blender.org/manual/en/5.2/render/shader_nodes/groups.html",
+  "chars": 1035
+ },
+ {
+  "arquivo": "data/docs/api/bmesh.ops.md",
+  "titulo": "BMesh Operators (bmesh.ops)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bmesh.ops.html",
+  "chars": 57672
+ },
+ {
+  "arquivo": "data/docs/api/bmesh.types.md",
+  "titulo": "BMesh Types (bmesh.types)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bmesh.types.html",
+  "chars": 43518
+ },
+ {
+  "arquivo": "data/docs/api/bmesh.md",
+  "titulo": "BMesh Module (bmesh)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bmesh.html",
+  "chars": 6082
+ },
+ {
+  "arquivo": "data/docs/api/mathutils.md",
+  "titulo": "Math Types & Utilities (mathutils)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/mathutils.html",
+  "chars": 54945
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Mesh.md",
+  "titulo": "Mesh(ID)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Mesh.html",
+  "chars": 16198
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Object.md",
+  "titulo": "Object(ID)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Object.html",
+  "chars": 38669
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Material.md",
+  "titulo": "Material(ID)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Material.html",
+  "chars": 11893
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTree.md",
+  "titulo": "ShaderNodeTree(NodeTree)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTree.html",
+  "chars": 3432
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.NodeLinks.md",
+  "titulo": "NodeLinks(bpy_prop_collection)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.NodeLinks.html",
+  "chars": 2265
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Nodes.md",
+  "titulo": "Nodes(bpy_prop_collection)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Nodes.html",
+  "chars": 1985
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ObjectModifiers.md",
+  "titulo": "ObjectModifiers(bpy_prop_collection)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ObjectModifiers.html",
+  "chars": 2290
+ },
+ {
+  "arquivo": "data/docs/api/bpy.ops.mesh.md",
+  "titulo": "Mesh Operators",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.ops.mesh.html",
+  "chars": 99009
+ },
+ {
+  "arquivo": "data/docs/api/bpy.ops.object.md",
+  "titulo": "Object Operators",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.ops.object.html",
+  "chars": 131395
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Curve.md",
+  "titulo": "Curve(ID)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Curve.html",
+  "chars": 10154
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SplineBezierPoints.md",
+  "titulo": "SplineBezierPoints(bpy_prop_collection)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SplineBezierPoints.html",
+  "chars": 1712
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ArrayModifier.md",
+  "titulo": "ArrayModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ArrayModifier.html",
+  "chars": 4019
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.BevelModifier.md",
+  "titulo": "BevelModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.BevelModifier.html",
+  "chars": 6108
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.BooleanModifier.md",
+  "titulo": "BooleanModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.BooleanModifier.html",
+  "chars": 4087
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.BuildModifier.md",
+  "titulo": "BuildModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.BuildModifier.html",
+  "chars": 2386
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.CastModifier.md",
+  "titulo": "CastModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.CastModifier.html",
+  "chars": 2966
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.CurveModifier.md",
+  "titulo": "CurveModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.CurveModifier.html",
+  "chars": 2334
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.DecimateModifier.md",
+  "titulo": "DecimateModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.DecimateModifier.html",
+  "chars": 3454
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.DisplaceModifier.md",
+  "titulo": "DisplaceModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.DisplaceModifier.html",
+  "chars": 3908
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.EdgeSplitModifier.md",
+  "titulo": "EdgeSplitModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.EdgeSplitModifier.html",
+  "chars": 2212
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.LaplacianSmoothModifier.md",
+  "titulo": "LaplacianSmoothModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.LaplacianSmoothModifier.html",
+  "chars": 2787
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.LatticeModifier.md",
+  "titulo": "LatticeModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.LatticeModifier.html",
+  "chars": 2283
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.MeshToVolumeModifier.md",
+  "titulo": "MeshToVolumeModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.MeshToVolumeModifier.html",
+  "chars": 2623
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.MirrorModifier.md",
+  "titulo": "MirrorModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.MirrorModifier.html",
+  "chars": 3762
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.Modifier.md",
+  "titulo": "Modifier(bpy_struct)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.Modifier.html",
+  "chars": 5914
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.MultiresModifier.md",
+  "titulo": "MultiresModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.MultiresModifier.html",
+  "chars": 3514
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.RemeshModifier.md",
+  "titulo": "RemeshModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.RemeshModifier.html",
+  "chars": 3535
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ScrewModifier.md",
+  "titulo": "ScrewModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ScrewModifier.html",
+  "chars": 3404
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfAnisotropic.md",
+  "titulo": "ShaderNodeBsdfAnisotropic(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfAnisotropic.html",
+  "chars": 3921
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfDiffuse.md",
+  "titulo": "ShaderNodeBsdfDiffuse(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfDiffuse.html",
+  "chars": 3465
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfGlass.md",
+  "titulo": "ShaderNodeBsdfGlass(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfGlass.html",
+  "chars": 3831
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfHair.md",
+  "titulo": "ShaderNodeBsdfHair(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfHair.html",
+  "chars": 3778
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfHairPrincipled.md",
+  "titulo": "ShaderNodeBsdfHairPrincipled(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfHairPrincipled.html",
+  "chars": 4604
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfMetallic.md",
+  "titulo": "ShaderNodeBsdfMetallic(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfMetallic.html",
+  "chars": 4241
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfPrincipled.md",
+  "titulo": "ShaderNodeBsdfPrincipled(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfPrincipled.html",
+  "chars": 4583
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfRayPortal.md",
+  "titulo": "ShaderNodeBsdfRayPortal(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfRayPortal.html",
+  "chars": 3495
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfRefraction.md",
+  "titulo": "ShaderNodeBsdfRefraction(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfRefraction.html",
+  "chars": 3661
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfSheen.md",
+  "titulo": "ShaderNodeBsdfSheen(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfSheen.html",
+  "chars": 3844
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfToon.md",
+  "titulo": "ShaderNodeBsdfToon(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfToon.html",
+  "chars": 3652
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfTranslucent.md",
+  "titulo": "ShaderNodeBsdfTranslucent(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfTranslucent.html",
+  "chars": 3460
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBsdfTransparent.md",
+  "titulo": "ShaderNodeBsdfTransparent(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBsdfTransparent.html",
+  "chars": 3527
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeBump.md",
+  "titulo": "ShaderNodeBump(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeBump.html",
+  "chars": 3646
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeCombineColor.md",
+  "titulo": "ShaderNodeCombineColor(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeCombineColor.html",
+  "chars": 3587
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeCombineXYZ.md",
+  "titulo": "ShaderNodeCombineXYZ(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeCombineXYZ.html",
+  "chars": 3462
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeEmission.md",
+  "titulo": "ShaderNodeEmission(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeEmission.html",
+  "chars": 3441
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMapRange.md",
+  "titulo": "ShaderNodeMapRange(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMapRange.html",
+  "chars": 3834
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMapping.md",
+  "titulo": "ShaderNodeMapping(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMapping.html",
+  "chars": 3606
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMath.md",
+  "titulo": "ShaderNodeMath(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMath.html",
+  "chars": 3597
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMix.md",
+  "titulo": "ShaderNodeMix(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMix.html",
+  "chars": 3968
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMixRGB.md",
+  "titulo": "ShaderNodeMixRGB(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMixRGB.html",
+  "chars": 3698
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeMixShader.md",
+  "titulo": "ShaderNodeMixShader(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeMixShader.html",
+  "chars": 3479
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeNormal.md",
+  "titulo": "ShaderNodeNormal(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeNormal.html",
+  "chars": 3453
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeNormalMap.md",
+  "titulo": "ShaderNodeNormalMap(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeNormalMap.html",
+  "chars": 4905
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeOutputAOV.md",
+  "titulo": "ShaderNodeOutputAOV(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeOutputAOV.html",
+  "chars": 3607
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeOutputLight.md",
+  "titulo": "ShaderNodeOutputLight(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeOutputLight.html",
+  "chars": 3916
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeOutputLineStyle.md",
+  "titulo": "ShaderNodeOutputLineStyle(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeOutputLineStyle.html",
+  "chars": 4225
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeOutputMaterial.md",
+  "titulo": "ShaderNodeOutputMaterial(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeOutputMaterial.html",
+  "chars": 3936
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeOutputWorld.md",
+  "titulo": "ShaderNodeOutputWorld(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeOutputWorld.html",
+  "chars": 3925
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeRGB.md",
+  "titulo": "ShaderNodeRGB(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeRGB.html",
+  "chars": 3419
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeRGBCurve.md",
+  "titulo": "ShaderNodeRGBCurve(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeRGBCurve.html",
+  "chars": 3521
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeRGBToBW.md",
+  "titulo": "ShaderNodeRGBToBW(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeRGBToBW.html",
+  "chars": 3461
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeSeparateColor.md",
+  "titulo": "ShaderNodeSeparateColor(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeSeparateColor.html",
+  "chars": 3592
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeSeparateXYZ.md",
+  "titulo": "ShaderNodeSeparateXYZ(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeSeparateXYZ.html",
+  "chars": 3467
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeShaderToRGB.md",
+  "titulo": "ShaderNodeShaderToRGB(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeShaderToRGB.html",
+  "chars": 3613
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexBrick.md",
+  "titulo": "ShaderNodeTexBrick(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexBrick.html",
+  "chars": 4165
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexChecker.md",
+  "titulo": "ShaderNodeTexChecker(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexChecker.html",
+  "chars": 3651
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexCoord.md",
+  "titulo": "ShaderNodeTexCoord(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexCoord.html",
+  "chars": 3725
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexEnvironment.md",
+  "titulo": "ShaderNodeTexEnvironment(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexEnvironment.html",
+  "chars": 4554
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexGabor.md",
+  "titulo": "ShaderNodeTexGabor(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexGabor.html",
+  "chars": 3865
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexGradient.md",
+  "titulo": "ShaderNodeTexGradient(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexGradient.html",
+  "chars": 4315
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexIES.md",
+  "titulo": "ShaderNodeTexIES(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexIES.html",
+  "chars": 3931
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexImage.md",
+  "titulo": "ShaderNodeTexImage(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexImage.html",
+  "chars": 5240
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexMagic.md",
+  "titulo": "ShaderNodeTexMagic(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexMagic.html",
+  "chars": 3761
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexNoise.md",
+  "titulo": "ShaderNodeTexNoise(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexNoise.html",
+  "chars": 4728
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexSky.md",
+  "titulo": "ShaderNodeTexSky(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexSky.html",
+  "chars": 5399
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexVoronoi.md",
+  "titulo": "ShaderNodeTexVoronoi(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexVoronoi.html",
+  "chars": 5193
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexWave.md",
+  "titulo": "ShaderNodeTexWave(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexWave.html",
+  "chars": 4503
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeTexWhiteNoise.md",
+  "titulo": "ShaderNodeTexWhiteNoise(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeTexWhiteNoise.html",
+  "chars": 3831
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShaderNodeValToRGB.md",
+  "titulo": "ShaderNodeValToRGB(ShaderNode)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShaderNodeValToRGB.html",
+  "chars": 3522
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.ShrinkwrapModifier.md",
+  "titulo": "ShrinkwrapModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.ShrinkwrapModifier.html",
+  "chars": 3571
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SimpleDeformModifier.md",
+  "titulo": "SimpleDeformModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SimpleDeformModifier.html",
+  "chars": 3271
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SkinModifier.md",
+  "titulo": "SkinModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SkinModifier.html",
+  "chars": 2415
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SmoothModifier.md",
+  "titulo": "SmoothModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SmoothModifier.html",
+  "chars": 2481
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SolidifyModifier.md",
+  "titulo": "SolidifyModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SolidifyModifier.html",
+  "chars": 5487
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.SubsurfModifier.md",
+  "titulo": "SubsurfModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.SubsurfModifier.html",
+  "chars": 4185
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.TriangulateModifier.md",
+  "titulo": "TriangulateModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.TriangulateModifier.html",
+  "chars": 2569
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.WarpModifier.md",
+  "titulo": "WarpModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.WarpModifier.html",
+  "chars": 3588
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.WaveModifier.md",
+  "titulo": "WaveModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.WaveModifier.html",
+  "chars": 4636
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.WeightedNormalModifier.md",
+  "titulo": "WeightedNormalModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.WeightedNormalModifier.html",
+  "chars": 3053
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.WeldModifier.md",
+  "titulo": "WeldModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.WeldModifier.html",
+  "chars": 2476
+ },
+ {
+  "arquivo": "data/docs/api/bpy.types.WireframeModifier.md",
+  "titulo": "WireframeModifier(Modifier)",
+  "fonte": "api",
+  "url": "https://docs.blender.org/api/5.2/bpy.types.WireframeModifier.html",
+  "chars": 3074
+ }
+]

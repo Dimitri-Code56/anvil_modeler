@@ -1,0 +1,136 @@
+---
+titulo: Shader Nodes
+fonte: manual
+versao_blender: 5.2
+url: https://docs.blender.org/manual/en/5.2/render/shader_nodes/index.html
+---
+
+# Shader Nodes
+
+- Shaders
+- Textures
+- More
+- Open Shading Language
+
+## Node Types
+
+- Constant
+- Boolean Node
+- Color Node
+- Integer Node
+- Menu Node
+- Value Node
+- Vector Node
+- Ambient Occlusion Node
+- Attribute Node
+- Bevel Node
+- Camera Data Node
+- Fresnel Node
+- Geometry Node
+- Curves Info Node
+- Layer Weight Node
+- Light Path Node
+- Object Info Node
+- Particle Info Node
+- Point Info
+- Raycast Node
+- Scene Time Node
+- Tangent Node
+- Texture Coordinate Node
+- UV Map Node
+- Color Attribute Node
+- Volume Info Node
+- Wireframe Node
+- Output
+- AOV Output Node
+- Material Output Node
+- Light Output Node
+- World Output Node
+- Add Shader
+- Background
+- Diffuse BSDF
+- Emission
+- Glass BSDF
+- Glossy BSDF
+- Hair BSDF
+- Holdout
+- Mix Shader
+- Metallic BSDF
+- Principled BSDF
+- Principled Hair BSDF
+- Principled Volume
+- Ray Portal BSDF
+- Refraction BSDF
+- Specular BSDF
+- Subsurface Scattering
+- Toon BSDF
+- Translucent BSDF
+- Transparent BSDF
+- Sheen BSDF
+- Volume Absorption
+- Volume Scatter
+- Volume Coefficients
+- Displacement
+- Bump Node
+- Displacement Node
+- Normal Map Node
+- Vector Displacement Node
+- Brick Texture Node
+- Checker Texture Node
+- Environment Texture Node
+- Gabor Texture Node
+- Gradient Texture Node
+- IES Texture Node
+- Image Texture Node
+- Magic Texture Node
+- Noise Texture Node
+- Sky Texture Node
+- Voronoi Texture Node
+- Wave Texture Node
+- White Noise Texture Node
+- Color
+- Blackbody Node
+- Brightness/Contrast Node
+- Color Ramp Node
+- Gamma Node
+- Hue/Saturation/Value Node
+- Invert Color Node
+- Light Falloff Node
+- Mix Color Node
+- RGB Curves Node
+- Wavelength Node
+- Combine Color Node
+- Separate Color Node
+- RGB to BW Node
+- Shader To RGB Node
+- Utilities
+- Math Nodes
+- Clamp Node
+- Float Curve
+- Map Range Node
+- Math Node
+- Mix Node
+- Vector Nodes
+- Combine XYZ Node
+- Mix Vector Node
+- Separate XYZ Node
+- Mapping Node
+- Normal Node
+- Vector Curves Node
+- Radial Tiling Node
+- Vector Math Node
+- Vector Rotate Node
+- Vector Transform Node
+- Combine Cylindrical Node
+- Combine Spherical Node
+- Separate Cylindrical Node
+- Separate Spherical Node
+- Repeat Zone
+- Implicit Conversion
+- Closure
+- Evaluate Closure
+- Combine Bundle Node
+- Separate Bundle Node
+- Join Bundle Node
+- Menu Switch Node
+- Script Node

@@ -1,0 +1,37 @@
+[project]
+name = "anvil_modeler"
+version = "0.1.0"
+description = "Agente LangGraph que transforma descrição + concept art em modelos 3D no Blender via MCP"
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=0.3",
+    "langchain>=0.3",
+    "langchain-anthropic>=0.3",
+    "langchain-mcp-adapters>=0.1",
+    "mcp>=1.2",
+    "pydantic>=2",
+    "python-dotenv>=1.0",
+    "pyyaml>=6",
+    "pillow>=10",
+    "streamlit>=1.40",
+    "numpy>=1.24",
+    "langchain-ollama>=0.3",
+    "langgraph-checkpoint-sqlite>=2",
+    "aiosqlite>=0.19",
+]
+
+[project.optional-dependencies]
+imagegen = ["torch", "diffusers>=0.30", "transformers", "accelerate"]
+local = ["langchain-ollama>=0.3"]
+dev = ["pytest"]
+
+[project.scripts]
+anvil = "anvil_modeler.cli:main"
+anvil-tools = "anvil_modeler.tools.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

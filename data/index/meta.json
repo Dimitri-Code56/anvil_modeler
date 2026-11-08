@@ -1,0 +1,7 @@
+{
+ "criado": "2026-11-07T21:53:10",
+ "pedacos": 1278,
+ "embed_model": "nomic-embed-text",
+ "max_chars": 1600,
+ "docs": "/home/dimitri/anvil_modeler/data/docs"
+}
