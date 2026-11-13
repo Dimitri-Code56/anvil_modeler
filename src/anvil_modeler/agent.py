@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -52,30 +53,85 @@ KEEP_TURNS = 6          # rodadas recentes mantidas no histórico
 MAX_CALLS_PER_TURN = 6
 MAX_ERRORS_IN_ROW = 6
 
+# modelos pequenos soltam um "quase-JSON": chaves e valores sem aspas
+# (ex.: {"name": buscar_documentacao, "arguments": {"consulta": Bevel modifier segments}})
+_CHAVE_NUA = re.compile(r"([{,]\s*)([A-Za-z_][A-Za-z0-9_\-]*)(\s*:)")
+# valor nu simples depois de qualquer dois-pontos (não-string, não-número, não-objeto, não-negativo)
+_VALOR_NU = re.compile(r'(:\s*)([^"\{\[\d\s,:\}\]\-][^,:\}\]]*)(\s*[,}\]])')
+
+
+def _conserta_json(t: str) -> str:
+    """Tenta transformar o quase-JSON de um modelo pequeno em JSON válido (aspas faltando).
+    Só roda quando o parse estrito falhou; se o resultado ainda não parsear, nada muda."""
+    t = _VALOR_NU.sub(lambda m: m.group(1) + '"' + m.group(2).strip().strip('`\'"') + '"' + m.group(3), t)
+    t = _CHAVE_NUA.sub(lambda m: m.group(1) + '"' + m.group(2) + '"' + m.group(3), t)
+    return t
+
+
+def _bloco_json(t: str, i: int) -> str:
+    """O trecho de t a partir de i até o } que fecha o { de i (contagem simples de chaves)."""
+    prof = 0
+    for j in range(i, len(t)):
+        if t[j] == "{":
+            prof += 1
+        elif t[j] == "}":
+            prof -= 1
+            if prof == 0:
+                return t[i:j + 1]
+    return t[i:]
+
 
 def parse_text_calls(text: str, names: set[str]) -> list[dict]:
-    """Modelos locais às vezes escrevem a chamada como JSON no texto em vez de usar tool_calls."""
+    """Modelos locais às vezes escrevem a chamada como JSON no texto em vez de usar tool_calls.
+
+    Aceita também o formato "quase JSON" em que o nome vem SEM aspas (comum no qwen2.5):
+    {"name": buscar_documentacao, "arguments": {"consulta": "..."}}
+    Nesse caso o objeto inteiro não é JSON válido: o nome sai por regex e os argumentos
+    (que são um objeto JSON válido) são lidos a partir da chave certa.
+    """
+    import re
     calls, dec, i = [], json.JSONDecoder(), 0
     while True:
         i = text.find("{", i)
         if i < 0:
-            return calls
+            break
         try:
             obj, end = dec.raw_decode(text, i)
         except ValueError:
             i += 1
             continue
         if isinstance(obj, dict):
-            name = obj.get("name") or obj.get("tool") or obj.get("function")
-            args = obj.get("arguments", obj.get("args", obj.get("parameters")))
-            if isinstance(args, str):
-                try:
-                    args = json.loads(args)
-                except ValueError:
-                    args = None
-            if name in names and isinstance(args, dict):
-                calls.append({"name": name, "args": args})
+            c = _texto_para_chamada(obj, names)
+            if c:
+                calls.append(c)
         i = end
+    if calls:
+        return calls
+    m = re.search(r'"(?:name|tool|function)"\s*:\s*([A-Za-z_][\w.]*)\s*,\s*"'
+                  r'(?:arguments|args|parameters)"\s*:\s*', text)
+    if not m:
+        return []
+    abre = text.find("{", m.end() - 1)
+    if m.group(1) not in names or abre < 0:
+        return []
+    try:
+        args, _fim = dec.raw_decode(text, abre)
+    except ValueError:
+        return []
+    return [{"name": m.group(1), "args": args}] if isinstance(args, dict) else []
+
+
+def _texto_para_chamada(obj: dict, names: set[str]) -> dict | None:
+    name = obj.get("name") or obj.get("tool") or obj.get("function")
+    args = obj.get("arguments", obj.get("args", obj.get("parameters")))
+    if isinstance(args, str):
+        try:
+            args = json.loads(args)
+        except ValueError:
+            args = None
+    if name in names and isinstance(args, dict):
+        return {"name": name, "args": args}
+    return None
 
 
 def _short(value, n: int = 500) -> str:

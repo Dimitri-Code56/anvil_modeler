@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import re
+import textwrap
 from typing import Annotated, Any, Literal, Optional, TypedDict
 
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage, ToolMessage
@@ -44,6 +45,64 @@ K_TRECHOS = 4
 TRECHO_CHARS = 1400
 SKILLS_SEMPRE = ("responder-com-fontes",)
 
+# Rede de segurança: a pergunta relata erro/traceback → a skill de diagnóstico tem de entrar
+# antes da resposta (o modelo pequeno às vezes responde direto sem carregar nada).
+ERRO_RE = re.compile(
+    r"traceback|exception|(?:attribute|type|key|runtime|value|index|syntax|import)error|\berror\b|"
+    r"poll\(\)\s*failed|deu erro|d[áa] erro|apareceu.{0,24}erro|est[áa] (dando|aparecendo) erro|"
+    r"n[ãa]o funciona|n[ãa]o roda", re.I)
+
+# Lembrete injetado quando o avaliador marcou os trechos como irrelevantes e as reescritas acabaram:
+# sem isso, o modelo pequeno responde mesmo assim e inventa citação.
+# v2: não é mais "só admita o limite" — a versão anterior transformava perguntas simples de
+# acompanhamento ("o Mirror funciona com o Bevel?") em recusa seca. A ordem agora é: admitir que está
+# fora do acervo E, só se souber com confiança, acrescentar a resposta geral SEM citação. Fabricar
+# citação, procedimento detalhado ou conversa anterior continua proibido.
+NUDGE_SEM_TRECHO = (
+    "Aviso do sistema: os trechos encontrados NÃO cobrem a pergunta (a busca já foi reformulada e o "
+    "avaliador seguiu marcando os resultados como irrelevantes). Faça nesta ordem:\n"
+    "1. Diga claramente que o assunto está fora do acervo indexado — ex.: \"isso está fora do acervo "
+    "indexado, que cobre modelagem, modificadores, materiais e nós\" — não há trechos para citar.\n"
+    "2. SE você souber a resposta com confiança, pelo contexto da conversa ou pelo conhecimento geral "
+    "do Blender, acrescente-a em seguida, de forma curta, SEM citações [n] e sem lista de fontes, "
+    "deixando claro que é conhecimento geral (ex.: \"fora do acervo, mas em termos gerais: ...\").\n"
+    "3. Se não souber com confiança, não invente: encerre indicando o manual oficial em docs.blender.org.\n"
+    "4. Em hipótese alguma invente citação, passo a passo detalhado ou conversa anterior.")
+
+
+def em_loop(texto: str) -> bool:
+    """Verdadeiro quando a mesma frase (8+ caracteres) aparece 3+ vezes: degeneração típica do modelo
+    pequeno, que entra em laço de repetição em vez de admitir que não sabe."""
+    frags = [f.strip().lower() for f in re.split(r"[.!?;\n…]+", texto) if len(f.strip()) >= 8]
+    vistas: dict[str, int] = {}
+    for f in frags:
+        vistas[f] = vistas.get(f, 0) + 1
+        if vistas[f] >= 3:
+            return True
+    return False
+
+# Pergunta sobre a própria conversa ("repita o que eu perguntei antes"): não tem busca na documentação —
+# a resposta depende do histórico da thread, não do acervo.
+META_CONV_RE = re.compile(
+    r"conversa anterior|pergunta\w*\s+anterior\w*|o\s+que\s+(eu\s+)?(perguntei|falei|disse|pedi)|"
+    r"repita.{0,30}(pergunta|conversa)|antes\s+(dessa|desta|da)\s+conversa", re.I)
+
+# Termos genéricos que não contam como "termo da pergunta" na conferência mecânica de relevância.
+_STOP_TERMOS = {
+    "como", "faço", "faco", "fazer", "para", "que", "com", "uma", "um", "quero", "ele", "isso",
+    "esse", "essa", "aqui", "junto", "conflito", "onde", "qual", "quais", "posso", "devo", "sobre",
+    "quando", "porque", "por", "meu", "minha", "tem", "esta", "pode", "criar", "cria", "faça",
+    "funciona", "the", "and", "does", "what", "how", "with", "blender", "modifier", "modifiers",
+    "node", "nodes", "mesh", "object", "objects", "material", "materials", "documentacao",
+    "documentação", "indexada", "acervo", "manual", "docs", "script", "scripts", "bpy",
+}
+
+
+def _termos_chave(txt: str) -> list[str]:
+    """Palavras marcantes da pergunta (sem as genéricas): base da conferência mecânica de relevância."""
+    return [w for w in (m.group(0).lower() for m in re.finditer(r"[A-Za-z][A-Za-z\-]{3,}", txt))
+            if w not in _STOP_TERMOS]
+
 # ---------------------------------------------------------------- guardrails --
 INJECAO = [
     r"(ignor|desconsider|esque[cç]|sobrescrev)\w*\s.{0,40}(instru|regra|prompt|orienta|diretriz)",
@@ -51,8 +110,21 @@ INJECAO = [
     r"(^|[\s/\\'\"`])\.env\b|(api|secret)[\s_-]*key|chave\s+(da\s+|de\s+)?api|anthropic_api|token\s+de\s+acesso",
     r"\b(senha|password)s?\b",
     r"rm\s+-rf|format\s+c:|del\s+/[sq]|shutdown\s+/|mkfs",
+    # sequestro de papel: "assuma o papel de", "você é agora X", "act as", "a partir de agora responda como"
+    r"assum[ae]\s+(o\s+papel|a\s+persona|o\s+personagem)|act\s+as\b|voc[eê]\s+(é|e|ser[áa])\s*(agora|outro|apenas(?!\s+um\s+assistente))",
+    r"(mostre|revele|exiba|imprima|copie|cole)\W{0,10}(o\s+|a\s+)?(conte[úu]do|texto|instru[çc][õo]es|chave[s]?)\W{0,10}(do|da|de)?\s*(arquivo|\.env|prompt|sistema)",
 ]
-SEGREDO = re.compile(r"sk-ant-[A-Za-z0-9_\-]{8,}|(?i:(api[_-]?key|secret|token)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,})")
+# Tokens reais de provedores + padrão genérico "chave = valor longo". Se aparecer na resposta,
+# o guardrail de saída troca por "[removido pelo guardrail]" (risco: vazamento de dados).
+SEGREDO = re.compile(
+    r"sk-ant-[A-Za-z0-9_\-]{8,}"                    # Anthropic
+    r"|sk-(?:proj-)?[A-Za-z0-9_\-]{20,}"            # OpenAI
+    r"|AKIA[0-9A-Z]{16}"                            # AWS
+    r"|(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}"    # GitHub
+    r"|AIza[0-9A-Za-z_\-]{30,}"                     # Google
+    r"|xox[abposr]-[A-Za-z0-9\-]{10,}"              # Slack
+    r"|(?i:(?:api[_-]?key|secret|token|senha)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,})"
+)
 RECUSA = {
     "fora_do_tema": "Eu só respondo dúvidas sobre o Blender e 3D. Pode perguntar sobre modelagem, modificadores, "
                     "malha, materiais e nós, ou scripts bpy.",
@@ -184,8 +256,14 @@ async def avaliar_trechos(llm, provider: str, pergunta: str, trechos: str) -> tu
 async def reescrever_consulta(llm, pergunta: str, consultas: list[str]) -> str:
     msg = await llm.ainvoke([SystemMessage(prompts.REESCRITOR),
                              HumanMessage(f"Pergunta: {pergunta}\nBuscas que não serviram: {consultas}")])
-    nova = text_of(msg).strip().splitlines()[0] if text_of(msg).strip() else pergunta
-    return nova.strip().strip('"').strip("`")[:200]
+    texto = text_of(msg).strip()
+    nova = texto.splitlines()[0] if texto else pergunta
+    nova = nova.strip().strip('"').strip("`")[:200]
+    if not nova or nova.lower() in {c.lower() for c in consultas}:
+        # o modelo repetiu uma busca que já falhou (ou veio vazia): fallback mecânico com os termos do usuário
+        termos = [w for w in _termos_chave(pergunta) if len(w) >= 4]
+        nova = " ".join(termos[-6:]) if termos else pergunta
+    return nova[:200]
 
 
 async def busca_agentica(rec: Recursos, pergunta: str, consulta: Optional[str] = None,
@@ -251,6 +329,8 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
                    if provider == "anthropic" else SystemMessage(system))
         model = rec.llm.bind_tools(ferramentas) if rodadas < MAX_RODADAS else rec.llm
         msgs = [sys_msg] + _historico(state["messages"])
+        if state.get("relevante") is False and state.get("consultas"):
+            msgs.append(HumanMessage(NUDGE_SEM_TRECHO))     # evidência fraca: lembra de admitir o limite
         try:
             ai = await model.ainvoke(msgs)
         except Exception as e:
@@ -272,6 +352,25 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
             if achadas:
                 ai = AIMessage(content="", tool_calls=[{"name": c["name"], "args": c["args"], "id": f"txt_{rodadas}_{k}"}
                                                        for k, c in enumerate(achadas)])
+        # Redes de segurança do harness (só na 1ª rodada, antes de qualquer ferramenta):
+        # 1) pergunta relata erro/traceback → garante carregar_skill('solucao-de-problemas') na mesma rodada;
+        # 2) respondeu sem ter buscado nada → força a busca antes ("não responda de memória" virou regra do
+        #    harness, não só do prompt). Pergunta sobre a própria conversa não busca na documentação.
+        if rodadas == 0 and state.get("categoria") == "blender" \
+                and "solucao-de-problemas" in rec.skills \
+                and "solucao-de-problemas" not in state.get("skills", []) \
+                and ERRO_RE.search(state.get("pergunta", "")) \
+                and not any(c["name"] == "carregar_skill" for c in (getattr(ai, "tool_calls", None) or [])):
+            ai = AIMessage(content="", tool_calls=list(getattr(ai, "tool_calls", None) or []) + [
+                {"name": "carregar_skill", "args": {"nome": "solucao-de-problemas"}, "id": "forca_skill_0"}],
+                additional_kwargs={"harness": "skill_de_erro"})
+        elif (rodadas == 0 and not getattr(ai, "tool_calls", None) and state.get("categoria") == "blender"
+              and not state.get("consultas")
+              and not META_CONV_RE.search(state.get("pergunta", ""))):
+            ai = AIMessage(content="", tool_calls=[{"name": "buscar_documentacao",
+                                                   "args": {"consulta": state.get("pergunta", "")[:200]},
+                                                   "id": "auto_busca_0"}],
+                          additional_kwargs={"harness": "busca_obrigatoria"})
         vazia = (ai.additional_kwargs or {}).get("vazia_antes")
         acao = (", ".join(f"{c['name']}({json.dumps(c['args'], ensure_ascii=False)[:80]})" for c in ai.tool_calls)
                 if ai.tool_calls else ("respondeu" + (f" (2a tentativa; a 1a veio vazia: {vazia})" if vazia else "")))
@@ -324,6 +423,15 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         ultimo = next((m for m in reversed(state["messages"])
                        if isinstance(m, ToolMessage) and m.name == "buscar_documentacao"), None)
         ok, motivo = await avaliar_trechos(rec.llm, provider, state.get("pergunta", ""), text_of(ultimo) if ultimo else "")
+        trechos_txt = text_of(ultimo).lower() if ultimo else ""
+        if not ok and trechos_txt:
+            # conferência mecânica: se um termo marcante da pergunta aparece no trecho, o "não relevante"
+            # do avaliador era falso negativo (modelos pequenos erram isso) e os trechos seguem valendo
+            chaves = [t for t in _termos_chave(state.get("pergunta", "")) if t in trechos_txt]
+            if chaves:
+                ok = True
+                motivo = (f"harness: falso negativo corrigido — o termo da pergunta aparece no trecho "
+                          f"({', '.join(chaves[:3])})")
         return {"relevante": ok, "trace": state.get("trace", []) + [f"avaliar: {'relevante' if ok else 'não serve'} ({motivo})"]}
 
     async def reescrever(state: ChatState) -> dict:
@@ -350,14 +458,34 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         limpo = SEGREDO.sub("[removido pelo guardrail]", txt)
         if limpo != txt:
             avisos.append("segredo removido")
+        limpo = re.sub(r"</?tool_(response|call)>", "", limpo)   # ecos de ferramenta que alguns modelos repetem
+        # Rede 3 (saída): a resposta degenerou em laço de repetição (o modelo pequeno às vezes repete a
+        # mesma frase dezenas de vezes em vez de admitir o limite) → troca por uma falha honesta, em vez
+        # de entregar a alucinação. Blocos de código ficam fora da checagem (passos legítimos se repetem).
+        if em_loop(re.sub(r"```.*?```", " ", limpo, flags=re.S)):
+            limpo = ("Travei numa resposta repetida e prefiro parar do que entregar palavras soltas. "
+                     "A documentação indexada não me deu base suficiente para essa pergunta — reformule ou "
+                     "peça em partes; para o assunto completo, veja docs.blender.org.")
+            avisos.append("resposta em laço de repetição: substituída por falha honesta")
+        # Honestidade da memória: na 1ª mensagem da thread NÃO existe "conversa anterior" — se a resposta
+        # afirma que houve, o modelo inventou (confabulação); troca pela verdade verificável.
+        if (len([m for m in state["messages"] if isinstance(m, HumanMessage)]) <= 1
+                and re.search(r"(pergunta|conversa|mensagem|resposta)\s+(anterior|passada)|conversa anterior",
+                              limpo, re.I)):
+            limpo = (f"Não tenho registro de conversas anteriores: cada conversa comigo começa do zero. "
+                     f"Nesta conversa, a sua pergunta foi: \"{state.get('pergunta', '')}\"")
+            avisos.append("resposta inventou 'conversa anterior' (1ª mensagem da thread): substituída")
         for code in re.findall(r"```(?:python|py)?\s*\n(.*?)```", limpo, re.S):
-            erro = check_code(code, armadilhas=False)
+            erro = check_code(textwrap.dedent(code), armadilhas=False)
             if erro:
                 avisos.append(f"código: {erro}")
                 limpo += (f"\n\n> ⚠️ Atenção: o código acima faz algo que o guardrail do Anvil bloquearia "
                           f"({erro}). Revise antes de rodar.")
         docs = state.get("documentos") or []
-        citados = sorted({int(n) for n in re.findall(r"\[(\d+)\]", limpo) if 0 < int(n) <= len(docs)})
+        # aceita [1], [2] e também "[1, 2]" (o modelo às vezes agrupa as citações)
+        nums = {int(n) for grupo in re.findall(r"\[([\d,\s]+)\]", limpo)
+                for n in grupo.split(",") if n.strip().isdigit()}
+        citados = sorted(n for n in nums if 0 < n <= len(docs))
         usados = citados or list(range(1, min(len(docs), 3) + 1))
         fontes = [{"n": n, "titulo": docs[n - 1]["titulo"], "secao": docs[n - 1]["secao"], "url": docs[n - 1]["url"]}
                   for n in usados]

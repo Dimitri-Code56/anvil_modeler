@@ -11,6 +11,8 @@ config/mcp_servers.json
 *.egg-info/
 skills/_to_delete/
 data/memoria.sqlite*
+data/testes_memoria.sqlite*
 data/conversas.json
 data/_to_delete/
 data/avaliacao_rag.json
+data/avaliacao_casos.json

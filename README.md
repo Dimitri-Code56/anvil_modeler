@@ -9,6 +9,11 @@ entram como uma camada opcional.
 
 Trabalho da Unidade II (RAG agêntico, MCP, skills, memória e guardrails).
 
+**Avaliação da Unidade II — IA Agêntica (2026.2)**
+
+- Participante 1: 【preencher nome】
+- Participante 2: 【preencher nome】
+
 ## Arquitetura
 
 ![Grafo do harness](docs/grafo_harness.png)
@@ -33,7 +38,38 @@ descrição ─► concept ─► plan ─► verify_api ─► retrieve ─► 
 | **Guardrails** | `guardrails.py` — validação AST antes de rodar código no Blender |
 | **Memória** | estado do grafo com histórico de tentativas (`attempts`) + `runs/<id>/run.json` |
 | **Interface** | `app/streamlit_app.py` |
+| **Casos de teste (10)** | `scripts/executar_testes.py` → gera `docs/casos_de_teste.md` (seção no fim deste README) |
 | **Avaliação** | `experiments/run_benchmark.py` — comparativo com e sem harness |
+
+### Função de cada nó
+
+**Grafo do assistente de perguntas (o agente do chat, `rag/assistente.py`)** — os guardrails são nós do grafo, como pedido:
+
+| Nó | Função |
+|---|---|
+| `guardrail_entrada` | Primeiro nó do grafo: classifica a pergunta (Blender / saudação / fora do tema / malicioso) com um modelo de saída estruturada e aplica regex de injeção de prompt e de pedido de segredo; bloqueia ANTES de qualquer chamada ao modelo (riscos: prompt injection, fora de escopo, vazamento de dados). |
+| `agente` | O modelo com as ferramentas: decide se responde direto, busca na documentação, carrega uma skill pelo catálogo (na mensagem de sistema) ou chama `verificar_api` no Blender aberto (MCP). |
+| `ferramentas` | Executa o que o agente pediu: busca no índice híbrido (BM25 + vetores, RRF), carrega o corpo da skill e chama as ferramentas MCP; numera os trechos para as citações [n]. |
+| `avaliar` | Julga, com saída estruturada, se os trechos encontrados respondem à pergunta — é o que torna o RAG agêntico. |
+| `reescrever` | Reformula a consulta com os termos da documentação (em inglês) e busca de novo, no máximo 2 vezes. |
+| `guardrail_saida` | Último nó: remove segredos da resposta, analisa blocos de código (avisa se faz algo que o guardrail bloquearia), confere as citações e garante a lista de fontes. |
+
+Arestas: `START → guardrail_entrada → (bloqueado → END) → agente → (com chamada de ferramenta → ferramentas → (buscou → avaliar → (relevante → agente ‖ reescrever → avaliar) ‖ → agente) ‖ → guardrail_saida → END)`.
+
+**Grafo do harness de modelagem (`graph.py`):**
+
+| Nó | Função |
+|---|---|
+| `concept` | Gera concept art local (SDXL-Turbo) a partir da descrição e do estilo (opcional). |
+| `plan` | O planner decompõe o asset: peças com medidas, técnicas, materiais, consultas de documentação, plano de API e skills do catálogo. |
+| `verify_api` | Confere ao vivo, no Blender aberto (via MCP), se cada nome da API existe nesta versão, com entradas/parâmetros reais. |
+| `retrieve` | RAG do harness: busca na documentação do bpy as consultas do planner + o que a verificação não encontrou. |
+| `code` | O gerador escreve o script bpy com a spec, a ficha de API, os trechos de doc, as skills e o feedback da tentativa anterior. |
+| `guard` | Guardrail de código: valida por AST (sem IO, sem salvar/apagar, imports na whitelist), aplica consertos previsíveis e lista armadilhas conhecidas. |
+| `execute` | Roda o script no Blender pela sessão MCP, na coleção do asset (limpa a cada tentativa). |
+| `render` | Monta o estúdio (câmera, chão, luz) e renderiza o PNG da tentativa. |
+| `evaluate` | Juiz visual compara o render com o pedido; registra a tentativa no histórico do estado e decide se volta para `code` (loop) ou termina. |
+| `agente` | Modo agente: o modelo monta o asset peça por peça chamando as ferramentas do `anvil-tools` (loop de ferramentas MCP dentro do nó). |
 
 ### Modos (o comparativo)
 
@@ -290,10 +326,22 @@ O modo agente tem dois perfis (`ANVIL_PERFIL` ou `--perfil`):
 ### 6. Desenhar o grafo
 
 ```bash
-python scripts/desenhar_grafo.py     # gera docs/grafo_harness.png
+python scripts/desenhar_grafo.py     # gera docs/grafo_harness.png E docs/grafo_chat.png
 ```
 
-### 7. Problemas comuns
+### 7. Casos de teste (relatório)
+
+```bash
+python scripts/executar_testes.py            # os 10 casos contra o assistente real
+python scripts/executar_testes.py --casos 2,9,10   # só alguns
+```
+
+Gera `docs/casos_de_teste.md` com a tabela no formato pedido (entrada, resultado esperado,
+resultado obtido, aprovado/reprovado), a taxa de acerto e a análise dos erros — e
+`data/avaliacao_casos.json` com as respostas completas e o trace de cada caso. Os casos 6 e 7
+precisam do Blender aberto; sem ele, saem como "não executado" e não entram na taxa.
+
+### 8. Problemas comuns
 
 | Sintoma | Causa e correção |
 |---|---|
@@ -307,6 +355,8 @@ python scripts/desenhar_grafo.py     # gera docs/grafo_harness.png
 ## Assistente de perguntas sobre o Blender (RAG agêntico + chat)
 
 Chat em Streamlit que responde dúvidas sobre o Blender 5.2 com base na documentação oficial, citando as fontes.
+
+![Grafo do chat](docs/grafo_chat.png)
 
 ```
 START → guardrail_entrada ─(bloqueado)→ END
@@ -342,6 +392,28 @@ python scripts/avaliar_rag.py                 # acerto@3 e MRR: BM25 x vetorial 
 python scripts/avaliar_rag.py --agentico      # + laço avaliar/reescrever (custa centavos)
 streamlit run app/chat.py                     # o chat
 ```
+
+## Casos de teste
+
+Os 10 casos exigidos pela avaliação cobrem RAG agêntico (1–3), as duas skills do chat (4–5), o
+servidor MCP próprio (6), o da comunidade (7), memória entre turnos (8) e guardrails (9–10).
+Os casos 2, 3, 9 e 10 (🔥) são os desafiadores: termo que não existe na documentação, assunto
+fora do acervo, injeção de prompt e script destrutivo.
+
+```bash
+python scripts/executar_testes.py
+```
+
+O script roda cada caso contra o **grafo real** do assistente (`build_chat_graph`), cada um na
+sua thread do checkpointer, e grava:
+
+- `docs/casos_de_teste.md` — a tabela no formato pedido (entrada, resultado esperado, resultado
+  obtido, aprovado/reprovado), a **taxa de acerto** e a **análise dos erros**;
+- `data/avaliacao_casos.json` — a resposta completa e o trace do grafo de cada caso (a evidência
+  para o vídeo).
+
+<!-- RELATÓRIO: cole aqui o conteúdo gerado em docs/casos_de_teste.md
+     (rode `python scripts/executar_testes.py` com o .env configurado) -->
 
 ## Limitações conhecidas
 

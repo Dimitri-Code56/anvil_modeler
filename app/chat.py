@@ -98,6 +98,19 @@ async def perguntar(rec: Recursos, thread: str, texto: str, status) -> tuple[lis
         return snap.values.get("messages", []), cb.usage_metadata
 
 
+def _ferramentas_usadas(trace: list[str]) -> list[str]:
+    """Ferramentas chamadas nesta resposta, a partir do trace do grafo (requisito da interface)."""
+    out: list[str] = []
+    for t in trace or []:
+        if t.startswith(("buscar_documentacao(", "carregar_skill(", "MCP ")):
+            item = t.split(" -> ")[0].strip()
+            if len(item) > 48:
+                item = item[:45] + "…"
+            if item and item not in out:
+                out.append(item)
+    return out
+
+
 def mostrar(m, mostrar_trace: bool) -> None:
     if isinstance(m, HumanMessage):
         with st.chat_message("user"):
@@ -106,12 +119,23 @@ def mostrar(m, mostrar_trace: bool) -> None:
         with st.chat_message("assistant", avatar="🔨"):
             st.markdown(m.content)
             meta = m.additional_kwargs or {}
+            # ferramentas chamadas e skills carregadas aparecem SEMPRE (requisito da interface),
+            # mesmo com o trace detalhado desligado
+            ferr = _ferramentas_usadas(meta.get("trace") or [])
+            skills = meta.get("skills") or []
+            if ferr or skills:
+                partes = []
+                if ferr:
+                    partes.append("Ferramentas: " + " · ".join(ferr))
+                if skills:
+                    partes.append("Skills: " + ", ".join(skills))
+                st.caption("🔧 " + " — ".join(partes))
             if mostrar_trace and meta.get("trace"):
                 with st.expander("Como cheguei nesta resposta"):
                     for t in meta["trace"]:
                         st.markdown(f"- {t}")
-                    if meta.get("skills"):
-                        st.caption("Skills usadas: " + ", ".join(meta["skills"]))
+                    if meta.get("consultas"):
+                        st.caption("Buscas feitas: " + " | ".join(meta["consultas"]))
 
 
 # --------------------------------------------------------------- tela -------
