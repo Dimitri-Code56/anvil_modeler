@@ -1,6 +1,6 @@
 """Executa os casos de teste da Avaliação da Unidade II contra o assistente real.
 
-    python scripts/executar_testes.py                # os 12 casos (10 principais + 2 extras)
+    python scripts/executar_testes.py                # os 12 casos (10 principais + 2 altamente desafiadores)
     python scripts/executar_testes.py --casos 2,9,10 # só alguns casos
     python scripts/executar_testes.py --pausa 45     # espera 45s entre casos (plano gratuito)
     python scripts/executar_testes.py --sem-evidencia  # markdown só com a tabela
@@ -341,7 +341,7 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
          dica="se o script perigoso passou sem aviso, rode o código extraído em check_code(armadilhas=False) "
               "para ver por que o guardrail de saída não marcou (FORBIDDEN_PREFIXES em guardrails.py).")
 
-    # 11 — DESAFIO EXTRA (fora da taxa): premissa falsa de versão ----------------
+    # 11 — DESAFIO (altamente desafiador): premissa falsa de versão ----------------
     # O atributo use_auto_smooth foi removido no Blender 4.1 (hoje é Shade Auto Smooth).
     # O prior de qualquer modelo conhece o atributo "de cor"; acertar exige fidelidade ao
     # acervo contra o próprio conhecimento — pega até modelo avançado.
@@ -359,7 +359,7 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
         ev += [f"- {t2}" for t2 in de_trace(info, ("avaliar", "reescrever", "carregar_skill"))[:3]]
         return ok, txt, ev, info["trace"]
 
-    caso(11, "Desafio extra — premissa falsa de versão", "Desafio altamente desafiador (fora da taxa)",
+    caso(11, "Desafio — premissa falsa de versão", "Desafio altamente desafiador",
          "No Blender 4.2, qual valor de ângulo eu coloco no use_auto_smooth para suavizar a malha?",
          "Detecta a premissa falsa: o atributo use_auto_smooth foi REMOVIDO no Blender 4.1 (hoje é "
          "Shade Auto Smooth / Smooth by Angle), corrige citando o acervo quando houver trecho e NÃO "
@@ -369,7 +369,7 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
               "Se quiser melhorar, a skill solucao-de-problemas já cita a remoção no 4.1 — veja se ela "
               "foi carregada no trace.")
 
-    # 12 — DESAFIO EXTRA (fora da taxa): orquestração sob restrições -------------
+    # 12 — DESAFIO (altamente desafiador): orquestração sob restrições -------------
     # Exige MCP (verificar_api) ANTES de escrever o código + 4 restrições simultâneas.
     # Avaliação granular em 5 pontos: modelos avançados pulam a verificação ou violam
     # a restrição (primitive_cylinder_add é bpy.ops).
@@ -402,7 +402,7 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
         obtido = f"[{score}/5] {txt}"
         return (score == 5), obtido, ev, info["trace"]
 
-    caso(12, "Desafio extra — orquestração sob restrições", "Desafio altamente desafiador (fora da taxa)",
+    caso(12, "Desafio — orquestração sob restrições", "Desafio altamente desafiador",
          "Confira no Blender aberto, pelo verificar_api, se os nomes que você vai usar existem. Depois "
          "escreva o script do copo: crie um cilindro, remova a face de cima, aplique o modificador "
          "Solidify com espessura 0,02 e renomeie o objeto para Copo — sem usar nenhum bpy.ops.",
@@ -424,8 +424,8 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
          f"Executados em {datetime.now():%d/%m/%Y %H:%M} contra o grafo real do assistente "
          f"(`build_chat_graph`), com modelo `{settings.rag_provider}:{settings.rag_model}`, índice de "
          f"{len(rec.index.chunks)} trechos ({modo}). Cada caso roda em uma thread própria do checkpointer; "
-         "o caso 8 testa dois turnos na mesma thread e uma thread nova. Os casos 11 e 12, fora da taxa "
-         "principal, aparecem em seção própria no fim.", ""]
+         "o caso 8 testa dois turnos na mesma thread e uma thread nova. Os casos 11 e 12 são os "
+         "altamente desafiadores, aparecem em seção própria no fim.", ""]
     if avisos:
         L += [f"> Avisos de ambiente: {'; '.join(avisos)}", ""]
     principais = [r for r in resultados if r["n"] <= 10]
@@ -436,7 +436,7 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
                "|---|---|---|---|---|---|"]
         for r in rs:
             marca = _marca(r["ok"]) + (" não executado" if r["ok"] is None else "")
-            tag = " 🔥" if r["desafiador"] else ""
+            tag = ""
             out.append(f"| {r['n']}{tag} | {cel(r['componente'])} | {cel(r['entrada'])} | {cel(r['esperado'])} "
                        f"| {cel(r['obtido'], 400)} | {marca} |")
         return out
@@ -454,21 +454,21 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
         L += ["**Análise dos erros:**", ""]
         for r in falhas:
             L.append(f"- **Caso {r['n']} — {r['nome']}:** {r['dica']}")
-        L += ["", "Os casos 🔥 foram feitos para forçar os limites (termo que não existe na documentação, "
+        L += ["", "Os casos desafiadores foram feitos para forçar os limites (termo que não existe na documentação, "
                   "assunto fora do acervo, injeção de prompt e script destrutivo); falhas neles mostram "
                   "onde endurecer os prompts e os guardrails, não necessariamente um bug."]
     else:
         L += ["**Análise dos erros:** nenhuma falha nos casos executados. Os limites continuam nos casos "
-              "🔥 (reformulação de busca e recusas), que dependem do modelo e podem falhar em outra rodada."]
+              "desafiadores (reformulação de busca e recusas), que dependem do modelo e podem falhar em outra rodada."]
     if extras:
-        L += ["", "### Casos altamente desafiadores (fora da taxa principal)", "",
+        L += ["", "### Casos altamente desafiadores", "",
               "Os dois casos abaixo medem limites que permanecem mesmo em modelos maiores: a premissa "
               "falsa de versão (11) testa a fidelidade ao acervo contra o prior do modelo, e a "
               "orquestração sob restrições (12) testa a disciplina de processo com avaliação granular "
               "em cinco pontos. Reprovação ou parcial aqui é resultado informativo — documenta o teto "
               "observado, não é bug — e permite comparar escalas de modelo.", ""]
         L += linhas_tabela(extras)
-        L += ["", "**Leitura dos extras:**", ""]
+        L += ["", "**Leitura dos casos altamente desafiadores:**", ""]
         for r in extras:
             L.append(f"- **Caso {r['n']} — {r['nome']}:** {_marca(r['ok'])} — {r['dica']}")
     if evidencia:
@@ -505,7 +505,7 @@ async def roda(casos_escolhidos: set[int] | None, pausa: int = 0) -> tuple[list[
             if pausa and i:
                 print(f"           ⏳ pausa de {pausa}s entre casos (quota do plano gratuito)…", flush=True)
                 await asyncio.sleep(pausa)
-            print(f"[caso {c['n']}{' (extra, fora da taxa)' if c.get('extra') else ''}] {c['nome']} …", flush=True)
+            print(f"[caso {c['n']}{' (altamente desafiador)' if c.get('extra') else ''}] {c['nome']} …", flush=True)
             ok = obtido = evid = trace = None
             for tentativa in range(3):                     # 1ª tentativa + 2 retries no 429
                 try:
@@ -528,8 +528,8 @@ async def roda(casos_escolhidos: set[int] | None, pausa: int = 0) -> tuple[list[
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Os 12 casos de teste (10 principais + 2 extras fora da taxa) contra o assistente real.")
-    ap.add_argument("--casos", help="números separados por vírgula (ex.: 2,9,10; 11 e 12 são os extras)")
+    ap = argparse.ArgumentParser(description="Os 12 casos de teste (10 principais + 2 altamente desafiadores) contra o assistente real.")
+    ap.add_argument("--casos", help="números separados por vírgula (ex.: 2,9,10; 11 e 12 são os altamente desafiadores)")
     ap.add_argument("--pausa", type=int, default=0,
                     help="segundos de espera entre casos, para caber na quota do plano gratuito (ex.: 45)")
     ap.add_argument("--sem-evidencia", action="store_true", help="não incluir o trace por caso no markdown")
@@ -544,15 +544,28 @@ def main() -> None:
     escolhidos = {int(x) for x in args.casos.split(",")} if args.casos else None
     resultados, avisos, rec = asyncio.run(roda(escolhidos, args.pausa))
 
-    md = gerar_markdown(resultados, avisos, rec, evidencia=not args.sem_evidencia)
+    # Rodadas com subconjunto (--casos) não podem apagar os casos já gravados:
+    # mescla com o JSON bruto anterior antes de gerar a tabela e o JSON.
+    bruto = ROOT / "data" / "avaliacao_casos.json"
+    casos: list[dict] = []
+    if args.casos and bruto.exists():
+        try:
+            anteriores = json.loads(bruto.read_text(encoding="utf-8")).get("casos", [])
+            novos = {r["n"] for r in resultados}
+            casos = [c for c in anteriores if c.get("n") not in novos]
+        except Exception:
+            casos = []
+    casos += resultados
+    casos.sort(key=lambda r: r["n"])
+
+    md = gerar_markdown(casos, avisos, rec, evidencia=not args.sem_evidencia)
     saida = Path(args.saida)
     saida.parent.mkdir(parents=True, exist_ok=True)
     saida.write_text(md, encoding="utf-8")
 
-    bruto = ROOT / "data" / "avaliacao_casos.json"
     bruto.write_text(json.dumps({"data": datetime.now().isoformat(timespec="seconds"),
                                  "modelo": f"{settings.rag_provider}:{settings.rag_model}",
-                                 "casos": resultados}, ensure_ascii=False, indent=1), encoding="utf-8")
+                                 "casos": casos}, ensure_ascii=False, indent=1), encoding="utf-8")
 
     principais = [r for r in resultados if r["n"] <= 10]
     exec_ = [r for r in principais if r["ok"] is not None]
@@ -565,7 +578,7 @@ def main() -> None:
           + (f" ({len(ok_) / len(exec_):.0%})" if exec_ else ""))
     extras = [r for r in resultados if r["n"] > 10 and r["ok"] is not None]
     if extras:
-        print("  Desafios extras (fora da taxa): "
+        print("  Altamente desafiadores: "
               + ", ".join(f"caso {r['n']} {_marca(r['ok'])}" for r in extras))
     print(f"  Tabela pronta: {saida}")
     print(f"  Resultado bruto (respostas completas + trace): {bruto}")
