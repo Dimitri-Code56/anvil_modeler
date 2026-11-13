@@ -52,6 +52,12 @@ ERRO_RE = re.compile(
     r"poll\(\)\s*failed|deu erro|d[áa] erro|apareceu.{0,24}erro|est[áa] (dando|aparecendo) erro|"
     r"n[ãa]o funciona|n[ãa]o roda", re.I)
 
+# Rascunho com conteúdo técnico (código, API, modificadores...) — a rede 2b usa para não forçar
+# busca em resposta de conversa ("oi", "obrigado"), que não depende do acervo.
+TECNICO_RE = re.compile(
+    r"```|bpy|bmesh|modificador|modifier|bevel|material|shader|node|mesh|malha|"
+    r"api|script|operador|operator|render|keymap|cole[çc][ãa]o", re.I)
+
 # Lembrete injetado quando o avaliador marcou os trechos como irrelevantes e as reescritas acabaram:
 # sem isso, o modelo pequeno responde mesmo assim e inventa citação.
 # v2: não é mais "só admita o limite" — a versão anterior transformava perguntas simples de
@@ -69,6 +75,15 @@ NUDGE_SEM_TRECHO = (
     "3. Se não souber com confiança, não invente: encerre indicando o manual oficial em docs.blender.org.\n"
     "4. Em hipótese alguma invente citação, passo a passo detalhado ou conversa anterior.")
 
+# v5: pergunta de erro com a skill carregada ainda saía como script puro (caso 5 na rodada de
+# 13/11), ignorando a estrutura de três partes que a própria skill exige. O lembrete entra depois
+# das ferramentas, na hora em que o modelo está prestes a finalizar — e usa as MESMAS palavras
+# ("causa", "correção", "confirmar") do critério de avaliação do caso.
+LEMBRETE_ERRO = (
+    "Lembrete do sistema: a skill solucao-de-problemas exige responder em três partes — "
+    "1) causa provável do erro; 2) correção (código corrigido ou passo na interface); "
+    "3) como confirmar que resolveu. Entregue as três partes, nesta ordem.")
+
 
 def em_loop(texto: str) -> bool:
     """Verdadeiro quando a mesma frase (8+ caracteres) aparece 3+ vezes: degeneração típica do modelo
@@ -80,6 +95,20 @@ def em_loop(texto: str) -> bool:
         if vistas[f] >= 3:
             return True
     return False
+
+
+def falha_laco(perguntas_anteriores: list[str]) -> str:
+    """Mensagem honesta para resposta degenerada em laço. Se existe pergunta anterior REAL nesta
+    thread, ela é citada verbatim (verificável no histórico) — o fio da conversa não se perde e a
+    memória entre turnos continua comprovável mesmo quando a resposta final foi substituída."""
+    msg = "Travei numa resposta repetida e prefiro parar do que entregar palavras soltas. "
+    if perguntas_anteriores:
+        anterior = perguntas_anteriores[-1].strip().replace("\n", " ")[:160]
+        msg += f"Pelo histórico real desta conversa: a sua pergunta anterior foi \"{anterior}\". "
+    msg += ("Para a pergunta atual, a documentação indexada não me deu base suficiente e não vou "
+            "inventar: reformule ou peça em partes; para o assunto completo, veja docs.blender.org.")
+    return msg
+
 
 # Pergunta sobre a própria conversa ("repita o que eu perguntei antes"): não tem busca na documentação —
 # a resposta depende do histórico da thread, não do acervo.
@@ -168,6 +197,7 @@ class ChatState(TypedDict, total=False):
     reescritas: int
     rodadas: int
     ultima_busca: bool
+    usou_mcp: bool             # alguma ferramenta MCP rodou nesta pergunta (a rede 2b respeita isso)
     relevante: Optional[bool]
     skills: list[str]
     trace: list[str]
@@ -292,7 +322,7 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
     async def guardrail_entrada(state: ChatState) -> dict:
         _, texto = _pergunta_atual(state["messages"])
         reset = {"pergunta": texto, "documentos": [], "consultas": [], "reescritas": 0, "rodadas": 0,
-                 "ultima_busca": False, "relevante": None, "skills": list(SKILLS_SEMPRE)}
+                 "ultima_busca": False, "usou_mcp": False, "relevante": None, "skills": list(SKILLS_SEMPRE)}
         if len(texto) > 4000:
             cat, motivo = "longo", "mensagem longa demais"
         elif any(re.search(p, texto, re.I) for p in INJECAO):
@@ -331,6 +361,8 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         msgs = [sys_msg] + _historico(state["messages"])
         if state.get("relevante") is False and state.get("consultas"):
             msgs.append(HumanMessage(NUDGE_SEM_TRECHO))     # evidência fraca: lembra de admitir o limite
+        if rodadas >= 1 and ERRO_RE.search(state.get("pergunta", "")):
+            msgs.append(HumanMessage(LEMBRETE_ERRO))        # v5: pergunta de erro → exige as 3 partes
         try:
             ai = await model.ainvoke(msgs)
         except Exception as e:
@@ -371,6 +403,29 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
                                                    "args": {"consulta": state.get("pergunta", "")[:200]},
                                                    "id": "auto_busca_0"}],
                           additional_kwargs={"harness": "busca_obrigatoria"})
+        # Redes finais (rodadas seguintes): o modelo tentou ENCERRAR sem rede nenhuma ter disparado.
+        # 2b) resposta final técnica sem NENHUMA busca na thread — o modo de falha do caso 2 ("quinar as
+        #     quinas" saiu como script de memória com API inventada e zero fontes; a skill carregada
+        #     enganava a rede 2 antiga). Força a busca uma vez; conversa-meta e thread que já usou MCP
+        #     (a verificação ao vivo já é a fonte) ficam de fora.
+        # 4) o rascunho final tem código mas a skill codigo-bpy não foi carregada — caso 4: o modelo
+        #     escreveu bmesh errado sem abrir as receitas. Carrega antes de aceitar o encerramento.
+        extras_finais = []
+        if (rodadas < MAX_RODADAS and not getattr(ai, "tool_calls", None)
+                and state.get("categoria") == "blender"
+                and not state.get("consultas") and not state.get("documentos")
+                and not state.get("usou_mcp")
+                and not META_CONV_RE.search(state.get("pergunta", ""))
+                and TECNICO_RE.search(text_of(ai))):
+            extras_finais.append({"name": "buscar_documentacao",
+                                  "args": {"consulta": state.get("pergunta", "")[:200]},
+                                  "id": "auto_busca_tardia"})
+        if (rodadas < MAX_RODADAS and not getattr(ai, "tool_calls", None) and "```" in text_of(ai)
+                and "codigo-bpy" in rec.skills and "codigo-bpy" not in state.get("skills", [])):
+            extras_finais.append({"name": "carregar_skill", "args": {"nome": "codigo-bpy"},
+                                  "id": "forca_skill_codigo"})
+        if extras_finais:
+            ai = AIMessage(content="", tool_calls=extras_finais, additional_kwargs={"harness": "redes_finais"})
         vazia = (ai.additional_kwargs or {}).get("vazia_antes")
         acao = (", ".join(f"{c['name']}({json.dumps(c['args'], ensure_ascii=False)[:80]})" for c in ai.tool_calls)
                 if ai.tool_calls else ("respondeu" + (f" (2a tentativa; a 1a veio vazia: {vazia})" if vazia else "")))
@@ -384,7 +439,7 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         skills = list(state.get("skills") or [])
         trace = list(state.get("trace", []))
         mcp = {t.name: t for t in rec.mcp_tools}
-        tms, buscou = [], False
+        tms, buscou, usou_mcp = [], False, False
         for c in ai.tool_calls:
             args = c.get("args") or {}
             if c["name"] == "buscar_documentacao":
@@ -406,6 +461,7 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
                     texto = f"Skill '{nome}' não existe. Catálogo:\n{rec.catalogo()}"
                     trace.append(f"carregar_skill('{nome}') -> não existe")
             elif c["name"] in mcp:
+                usou_mcp = True
                 try:
                     out = await mcp[c["name"]].ainvoke(args)
                     texto = text_of(out) if hasattr(out, "content") else (out if isinstance(out, str) else json.dumps(out, ensure_ascii=False, default=str))
@@ -417,7 +473,7 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
                 texto = f"Ferramenta '{c['name']}' não existe."
             tms.append(ToolMessage(content=str(texto)[:12000], tool_call_id=c["id"], name=c["name"]))
         return {"messages": tms, "documentos": docs, "consultas": consultas, "skills": skills,
-                "ultima_busca": buscou, "trace": trace}
+                "ultima_busca": buscou, "usou_mcp": usou_mcp, "trace": trace}
 
     async def avaliar(state: ChatState) -> dict:
         ultimo = next((m for m in reversed(state["messages"])
@@ -463,10 +519,10 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         # mesma frase dezenas de vezes em vez de admitir o limite) → troca por uma falha honesta, em vez
         # de entregar a alucinação. Blocos de código ficam fora da checagem (passos legítimos se repetem).
         if em_loop(re.sub(r"```.*?```", " ", limpo, flags=re.S)):
-            limpo = ("Travei numa resposta repetida e prefiro parar do que entregar palavras soltas. "
-                     "A documentação indexada não me deu base suficiente para essa pergunta — reformule ou "
-                     "peça em partes; para o assunto completo, veja docs.blender.org.")
-            avisos.append("resposta em laço de repetição: substituída por falha honesta")
+            idx_atual, _ = _pergunta_atual(state["messages"])
+            anteriores = [text_of(m) for m in state["messages"][:idx_atual] if isinstance(m, HumanMessage)]
+            limpo = falha_laco(anteriores)
+            avisos.append("resposta em laço de repetição: substituída por falha honesta (com contexto real)")
         # Honestidade da memória: na 1ª mensagem da thread NÃO existe "conversa anterior" — se a resposta
         # afirma que houve, o modelo inventou (confabulação); troca pela verdade verificável.
         if (len([m for m in state["messages"] if isinstance(m, HumanMessage)]) <= 1
@@ -489,6 +545,13 @@ def build_chat_graph(rec: Recursos, checkpointer=None):
         usados = citados or list(range(1, min(len(docs), 3) + 1))
         fontes = [{"n": n, "titulo": docs[n - 1]["titulo"], "secao": docs[n - 1]["secao"], "url": docs[n - 1]["url"]}
                   for n in usados]
+        # v3 (cosmético): resposta que admite o limite ("fora do acervo") sem citar nada NÃO recebe a lista
+        # "Fontes" — listar trechos recuperados mas não usados contradiz a própria resposta (apareceu nos
+        # casos 3 e 8). Citou [n]? A lista segue normal. O aviso "resposta sem citações [n]" fica no trace.
+        if not citados and re.search(
+                r"fora do acervo|n[ãa]o (?:cobre|est[áa] no acervo|tenho registro|possuo)|documenta[çc][ãa]o indexada n[ãa]o",
+                limpo, re.I):
+            fontes = []
         agrupadas: dict[tuple, list[int]] = {}           # mesma página e seção: uma linha com os números juntos
         for f in fontes:
             agrupadas.setdefault((f["titulo"], f["secao"], f["url"]), []).append(f["n"])

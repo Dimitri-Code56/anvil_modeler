@@ -39,8 +39,14 @@ Catálogo de skills (carregue com carregar_skill quando aplicável):
 {skills_carregadas}"""
 
 AVALIADOR = """Você avalia se os trechos de documentação encontrados servem para responder a pergunta do usuário.
-Responda relevante=true se pelo menos um trecho tratar diretamente do assunto da pergunta (o recurso, o
-parâmetro ou a técnica pedida). Responda false se os trechos forem de outro assunto ou genéricos demais."""
+Responda relevante=true se pelo menos um trecho tratar do assunto da pergunta (o recurso, o parâmetro ou a técnica
+pedida) — por exemplo: a pergunta cita o modificador Bevel e o trecho explica o Bevel Modifier; isso É relevante,
+mesmo que o trecho não esgote a pergunta (o resto o modelo completa com o contexto da conversa). Responda
+relevante=false somente se os trechos forem de outro assunto ou genéricos demais.
+Cuidado com o erro oposto: uma pergunta que pede um PROCEDIMENTO completo (ex.: "como fazer rigging de um
+personagem e animá-lo andando") NÃO fica respondida por um trecho que apenas descreve uma ferramenta relacionada
+(ex.: a página do Armature Modifier explica o que o modificador faz, não ensina o rigging nem a animação de
+caminhada). Se nenhum trecho ensina o que foi perguntado, relevante=false."""
 
 REESCRITOR = """Reescreva a busca para encontrar na documentação oficial do Blender (manual e API Python, em inglês)
 o que responde a pergunta. Use os nomes que a documentação usaria: nome do modificador, do nó, do operador,
