@@ -1,0 +1,58 @@
+{
+ "data": "2026-11-13T07:00:56",
+ "modelo": "ollama:qwen2.5-coder:3b",
+ "casos": [
+  {
+   "n": 11,
+   "nome": "Desafio extra — premissa falsa de versão",
+   "componente": "Desafio altamente desafiador (fora da taxa)",
+   "entrada": "No Blender 4.2, qual valor de ângulo eu coloco no use_auto_smooth para suavizar a malha?",
+   "esperado": "Detecta a premissa falsa: o atributo use_auto_smooth foi REMOVIDO no Blender 4.1 (hoje é Shade Auto Smooth / Smooth by Angle), corrige citando o acervo quando houver trecho e NÃO receita o atributo como se existisse. Pega até modelo avançado: o prior sabe o atributo de cor e responde direto.",
+   "desafiador": true,
+   "dica": "não é erro para consertar: reprovação aqui documenta o limite de fidelidade ao acervo. Se quiser melhorar, a skill solucao-de-problemas já cita a remoção no 4.1 — veja se ela foi carregada no trace.",
+   "extra": true,
+   "ok": false,
+   "obtido": "Travei numa resposta repetida e prefiro parar do que entregar palavras soltas. Para a pergunta atual, a documentação indexada não me deu base suficiente e não vou inventar: reformule ou peça em partes; para o assunto completo, veja docs.blender.org.",
+   "evidencia": [
+    "corrigiu a premissa (atributo removido no 4.1): False; receitou o atributo como se existisse: False",
+    "- avaliar: relevante (O trecho [1] explica o Smooth By Angle Modifier, que é um tipo de suavização de malha em Blender. Embora não seja o valor exato que você está procurando, ele fornece informações sobre o Smooth By Angle Modifier, que pode ser útil para entender como o suavizado por ângulo funciona.)"
+   ],
+   "trace": [
+    "guardrail_entrada: ok (blender)",
+    "agente: buscar_documentacao({\"consulta\": \"No Blender 4.2, qual valor de ângulo eu coloco no use_auto_smooth )",
+    "buscar_documentacao('No Blender 4.2, qual valor de ângulo eu coloco no use_auto_smooth para suavizar a malha?') -> 4 trechos: Smooth By Angle Modifier › Smooth By Angle Modifier; Smooth Corrective Modifier › Smooth Corrective Modifier; BMesh Operators (bmesh.ops) › BMesh Operators (bmesh.ops) > Operator E",
+    "avaliar: relevante (O trecho [1] explica o Smooth By Angle Modifier, que é um tipo de suavização de malha em Blender. Embora não seja o valor exato que você está procurando, ele fornece informações sobre o Smooth By Angle Modifier, que pode ser útil para entender como o suavizado por ângulo funciona.)",
+    "agente: respondeu",
+    "guardrail_saida: resposta em laço de repetição: substituída por falha honesta (com contexto real); resposta sem citações [n]"
+   ]
+  },
+  {
+   "n": 12,
+   "nome": "Desafio extra — orquestração sob restrições",
+   "componente": "Desafio altamente desafiador (fora da taxa)",
+   "entrada": "Confira no Blender aberto, pelo verificar_api, se os nomes que você vai usar existem. Depois escreva o script do copo: crie um cilindro, remova a face de cima, aplique o modificador Solidify com espessura 0,02 e renomeie o objeto para Copo — sem usar nenhum bpy.ops.",
+   "esperado": "Cinco pontos granulares: (1) verificar_api no trace antes do código, (2) cilindro sem bpy.ops, (3) remoção de face via bmesh, (4) Solidify pela API com espessura 0,02, (5) objeto renomeado para Copo; aprovado só com 5/5. Pega até modelo avançado: pulam a verificação ou violam a restrição (primitive_cylinder_add é bpy.ops). Requer Blender aberto.",
+   "desafiador": true,
+   "dica": "não é erro para consertar: parcial aqui documenta o teto agêntico. Para comparar escalas, rode o mesmo caso com um modelo maior e compare os pontos.",
+   "extra": true,
+   "ok": false,
+   "obtido": "[3/5] ```python\nimport bpy\nimport bmesh\n\n# Criar um cilindro\nbm = bmesh.new()\nbmesh.ops.create_cylinder(bm, radius=1, depth=2, vertices=32, calc_tangent=True)\nme = bpy.data.meshes.new(\"Cilindro\")\nbm.to_mesh(me)\nbm.free()\n\n# Adicionar o objeto ao universo\nob = bpy.data.objects.new(\"Cilindro\", me)\nbpy.context.collection.objects.link(ob)\n\n# Remover a face de cima\nob.data.polygons[0].select = True\nbpy.ops.object.mode_set(mode='EDIT')\nbpy.ops.mesh.delete(type='FACE')\nbpy.ops.object.mode_set(mode='OBJECT')\n\n# Aplicar o modificador Solidify\nm = ob.modifiers.new(name=\"Solidify\", type=\"SOLIDIFY\")\nm.thickness = 0.02\n\n# Renomear o objeto\nob.name = \"Copo\"\n```\n\n**Fontes:**\n- [1] BMesh Module (bmesh): https://docs.blender.org/api/5.2/bmesh.html\n- [2] Armature Modifier — Armature Modifier > Options: https://docs.blender.org/manual/en/5.2/modeling/modifiers/deform/armature.html\n- [3] BMesh Module (bmesh) — BMesh Module (bmesh) > Keeping a Correct State: https://docs.blender.org/api/5.2/bmesh.html",
+   "evidencia": [
+    "pontos: 3/5 — ✔ verificar_api no trace; ✘ cilindro sem bpy.ops; ✘ remoção de face via bmesh; ✔ Solidify pela API (0,02); ✔ objeto renomeado para Copo"
+   ],
+   "trace": [
+    "guardrail_entrada: ok (blender)",
+    "agente: verificar_api({\"itens\": [{\"kind\": \"modifier\", \"name\": \"Solidify\"}]})",
+    "MCP verificar_api -> ok",
+    "agente: carregar_skill({\"nome\": \"solucao-de-problemas\"})",
+    "carregar_skill('solucao-de-problemas')",
+    "agente: buscar_documentacao({\"consulta\": \"Confira no Blender aberto, pelo verificar_api, se os nomes que voc), carregar_skill({\"nome\": \"codigo-bpy\"})",
+    "buscar_documentacao('Confira no Blender aberto, pelo verificar_api, se os nomes que você vai usar existem nesta versão. Depois escreva o script do copo: crie um cilindro, remova a face de cima, aplique o modificador Solid') -> 4 trechos: BMesh Module (bmesh) › BMesh Module (bmesh); Armature Modifier › Armature Modifier > Options; BMesh Module (bmesh) › BMesh Module (bmesh) > Keeping a Correct State",
+    "carregar_skill('codigo-bpy')",
+    "avaliar: relevante (harness: falso negativo corrigido — o termo da pergunta aparece no trecho (vers, face))",
+    "agente: respondeu",
+    "guardrail_saida: resposta sem citações [n]"
+   ]
+  }
+ ]
+}
