@@ -1,12 +1,23 @@
-"""Executa os 10 casos de teste da Avaliação da Unidade II contra o assistente real.
+"""Executa os casos de teste da Avaliação da Unidade II contra o assistente real.
 
-    python scripts/executar_testes.py                # os 10 casos (com Haiku: custa centavos)
+    python scripts/executar_testes.py                # os 12 casos (10 principais + 2 extras)
     python scripts/executar_testes.py --casos 2,9,10 # só alguns casos
+    python scripts/executar_testes.py --pausa 45     # espera 45s entre casos (plano gratuito)
     python scripts/executar_testes.py --sem-evidencia  # markdown só com a tabela
+
+No plano gratuito do Gemini o teto de chamadas por minuto (e por dia) é baixo, e cada caso
+faz várias chamadas (o agente decide a ferramenta, o avaliador julga os trechos, a resposta
+final). Com --pausa o script espera entre casos; e um erro 429 (RESOURCE_EXHAUSTED) não
+derruba o caso: ele espera 60s/120s e tenta de novo até 2 vezes antes de marcar ❌.
+Se mesmo assim vier 429, o teto é o do DIA — pare a bateria e rode de novo depois do reset.
 
 Cobertura: RAG agêntico (1–3), skills (4–5), MCP próprio (6), MCP da comunidade (7),
 memória entre turnos (8) e guardrails (9–10). Os casos 6 e 7 precisam do Blender aberto
 com a ponte MCP ligada; sem ele, o caso sai como "não executado" e não entra na taxa.
+Os casos 11 e 12 são os ALTAMENTE desafiadores e ficam FORA da taxa principal (relatório
+à parte): 11 = premissa falsa de versão (o prior do modelo contra o acervo); 12 = orquestração
+multi-ferramenta sob restrições, avaliado em 5 pontos granulares (requer Blender aberto).
+O esperado neles é falhar ou sair parcial — resultado informativo, não bug.
 
 Saída: docs/casos_de_teste.md (tabela pronta para o README) e data/avaliacao_casos.json (bruto,
 com a resposta completa e o trace de cada caso — a evidência para o vídeo e para o relatório).
@@ -62,6 +73,11 @@ def _marca(ok: bool | None) -> str:
     return {True: "✅", False: "❌", None: "⏭️"}[ok]
 
 
+def _estourou_quota(msg: str) -> bool:
+    m = msg.lower()
+    return "429" in m or "resource_exhausted" in m or "rate limit" in m
+
+
 # ------------------------------------------------------------------- MCP ------
 async def carregar_mcp() -> tuple[dict | None, dict | None, list[str]]:
     """Carrega as ferramentas dos dois servidores MCP (próprio e da comunidade). None = indisponível."""
@@ -112,7 +128,7 @@ def de_trace(info: dict, prefixos: tuple[str, ...]) -> list[str]:
     return [t for t in info["trace"] if t.startswith(prefixos)]
 
 
-# ------------------------------------------------------------ os 10 casos -----
+# ----------------------------------------------------------- os 12 casos -----
 # Cada runner devolve (ok, obtido, evidencia, trace): ok ∈ {True, False, None(não executado)}.
 def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -> list[dict]:
     def th(nome: str) -> str:
@@ -121,9 +137,10 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
     casos: list[dict] = []
 
     def caso(n: int, nome: str, componente: str, entrada: str, esperado: str,
-             runner, desafiador: bool = False, dica: str = "") -> None:
+             runner, desafiador: bool = False, dica: str = "", extra: bool = False) -> None:
         casos.append({"n": n, "nome": nome, "componente": componente, "entrada": entrada,
-                      "esperado": esperado, "runner": runner, "desafiador": desafiador, "dica": dica})
+                      "esperado": esperado, "runner": runner, "desafiador": desafiador,
+                      "dica": dica, "extra": extra})
 
     # 1 — RAG: pergunta direta, resposta com citações e fontes ------------------
     async def c1():
@@ -324,6 +341,79 @@ def montar_casos(g, proprio: dict | None, comunidade: dict | None, stamp: str) -
          dica="se o script perigoso passou sem aviso, rode o código extraído em check_code(armadilhas=False) "
               "para ver por que o guardrail de saída não marcou (FORBIDDEN_PREFIXES em guardrails.py).")
 
+    # 11 — DESAFIO EXTRA (fora da taxa): premissa falsa de versão ----------------
+    # O atributo use_auto_smooth foi removido no Blender 4.1 (hoje é Shade Auto Smooth).
+    # O prior de qualquer modelo conhece o atributo "de cor"; acertar exige fidelidade ao
+    # acervo contra o próprio conhecimento — pega até modelo avançado.
+    async def c11():
+        info = await falar(g, th("c11"), "No Blender 4.2, qual valor de ângulo eu coloco no "
+                                        "use_auto_smooth para suavizar a malha?")
+        txt = info["resposta"]
+        t = _sem_acento(txt)
+        corrigiu = any(f in t for f in ("removid", "nao existe", "deixou de existir", "nao e mais",
+                                        "substituid", "shade auto smooth", "smooth by angle", "4.1"))
+        receitou = bool(re.search(r"use_auto_smooth\s*=\s*(?:0|1|true|false|[0-9.]+)", t))
+        ok = corrigiu and not receitou
+        ev = [f"corrigiu a premissa (atributo removido no 4.1): {corrigiu}; "
+              f"receitou o atributo como se existisse: {receitou}"]
+        ev += [f"- {t2}" for t2 in de_trace(info, ("avaliar", "reescrever", "carregar_skill"))[:3]]
+        return ok, txt, ev, info["trace"]
+
+    caso(11, "Desafio extra — premissa falsa de versão", "Desafio altamente desafiador (fora da taxa)",
+         "No Blender 4.2, qual valor de ângulo eu coloco no use_auto_smooth para suavizar a malha?",
+         "Detecta a premissa falsa: o atributo use_auto_smooth foi REMOVIDO no Blender 4.1 (hoje é "
+         "Shade Auto Smooth / Smooth by Angle), corrige citando o acervo quando houver trecho e NÃO "
+         "receita o atributo como se existisse. Pega até modelo avançado: o prior sabe o atributo "
+         "de cor e responde direto.", c11, desafiador=True, extra=True,
+         dica="não é erro para consertar: reprovação aqui documenta o limite de fidelidade ao acervo. "
+              "Se quiser melhorar, a skill solucao-de-problemas já cita a remoção no 4.1 — veja se ela "
+              "foi carregada no trace.")
+
+    # 12 — DESAFIO EXTRA (fora da taxa): orquestração sob restrições -------------
+    # Exige MCP (verificar_api) ANTES de escrever o código + 4 restrições simultâneas.
+    # Avaliação granular em 5 pontos: modelos avançados pulam a verificação ou violam
+    # a restrição (primitive_cylinder_add é bpy.ops).
+    async def c12():
+        if proprio is None:
+            return None, "não executado: servidor próprio (anvil-tools) indisponível", [], []
+        info = await falar(g, th("c12"),
+                           "Confira no Blender aberto, pelo verificar_api, se os nomes que você vai usar "
+                           "existem nesta versão. Depois escreva o script do copo: crie um cilindro, "
+                           "remova a face de cima, aplique o modificador Solidify com espessura 0,02 e "
+                           "renomeie o objeto para Copo — sem usar nenhum bpy.ops.")
+        txt = info["resposta"]
+        codigo = "\n".join(blocos_python(txt))
+        chamadas = de_trace(info, ("MCP verificar_api",))
+        if any("-> erro" in t for t in chamadas):
+            return None, "não executado: a chamada MCP falhou (Blender fechado ou ponte desligada)", \
+                [f"- {t}" for t in chamadas[:2]], info["trace"]
+        chamou = bool(chamadas)
+        sem_ops_e_cilindro = bool(codigo) and "bpy.ops" not in codigo and (
+            "create_cone" in codigo or "create_circle" in codigo
+            or "from_pydata" in codigo or "verts.append" in codigo)
+        removeu_face = bool(re.search(r"bmesh\.ops\.delete|faces\.remove|delete_context", codigo))
+        solidify = "SOLIDIFY" in codigo.upper() and bool(re.search(r"0[.,]02", codigo))
+        renomeou = bool(re.search(r"name\s*=\s*[\"']Copo[\"']", codigo))
+        pontos = [chamou, sem_ops_e_cilindro, removeu_face, solidify, renomeou]
+        nomes = ["verificar_api no trace", "cilindro sem bpy.ops", "remoção de face via bmesh",
+                 "Solidify pela API (0,02)", "objeto renomeado para Copo"]
+        score = sum(pontos)
+        ev = [f"pontos: {score}/5 — " + "; ".join(f"{'✔' if p else '✘'} {n}" for p, n in zip(pontos, nomes))]
+        obtido = f"[{score}/5] {txt}"
+        return (score == 5), obtido, ev, info["trace"]
+
+    caso(12, "Desafio extra — orquestração sob restrições", "Desafio altamente desafiador (fora da taxa)",
+         "Confira no Blender aberto, pelo verificar_api, se os nomes que você vai usar existem. Depois "
+         "escreva o script do copo: crie um cilindro, remova a face de cima, aplique o modificador "
+         "Solidify com espessura 0,02 e renomeie o objeto para Copo — sem usar nenhum bpy.ops.",
+         "Cinco pontos granulares: (1) verificar_api no trace antes do código, (2) cilindro sem bpy.ops, "
+         "(3) remoção de face via bmesh, (4) Solidify pela API com espessura 0,02, (5) objeto renomeado "
+         "para Copo; aprovado só com 5/5. Pega até modelo avançado: pulam a verificação ou violam a "
+         "restrição (primitive_cylinder_add é bpy.ops). Requer Blender aberto.", c12,
+         desafiador=True, extra=True,
+         dica="não é erro para consertar: parcial aqui documenta o teto agêntico. Para comparar escalas, "
+              "rode o mesmo caso com um modelo maior e compare os pontos.")
+
     return casos
 
 
@@ -334,19 +424,27 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
          f"Executados em {datetime.now():%d/%m/%Y %H:%M} contra o grafo real do assistente "
          f"(`build_chat_graph`), com modelo `{settings.rag_provider}:{settings.rag_model}`, índice de "
          f"{len(rec.index.chunks)} trechos ({modo}). Cada caso roda em uma thread própria do checkpointer; "
-         "o caso 8 testa dois turnos na mesma thread e uma thread nova.", ""]
+         "o caso 8 testa dois turnos na mesma thread e uma thread nova. Os casos 11 e 12, fora da taxa "
+         "principal, aparecem em seção própria no fim.", ""]
     if avisos:
         L += [f"> Avisos de ambiente: {'; '.join(avisos)}", ""]
-    L += ["| # | Componente | Entrada | Resultado esperado | Resultado obtido | Passou? |",
-          "|---|---|---|---|---|---|"]
-    for r in resultados:
-        marca = _marca(r["ok"]) + (" não executado" if r["ok"] is None else "")
-        tag = " 🔥" if r["desafiador"] else ""
-        L.append(f"| {r['n']}{tag} | {cel(r['componente'])} | {cel(r['entrada'])} | {cel(r['esperado'])} "
-                 f"| {cel(r['obtido'], 400)} | {marca} |")
-    exec_ = [r for r in resultados if r["ok"] is not None]
+    principais = [r for r in resultados if r["n"] <= 10]
+    extras = [r for r in resultados if r["n"] > 10]
+
+    def linhas_tabela(rs: list[dict]) -> list[str]:
+        out = ["| # | Componente | Entrada | Resultado esperado | Resultado obtido | Passou? |",
+               "|---|---|---|---|---|---|"]
+        for r in rs:
+            marca = _marca(r["ok"]) + (" não executado" if r["ok"] is None else "")
+            tag = " 🔥" if r["desafiador"] else ""
+            out.append(f"| {r['n']}{tag} | {cel(r['componente'])} | {cel(r['entrada'])} | {cel(r['esperado'])} "
+                       f"| {cel(r['obtido'], 400)} | {marca} |")
+        return out
+
+    L += linhas_tabela(principais)
+    exec_ = [r for r in principais if r["ok"] is not None]
     ok_ = [r for r in exec_ if r["ok"]]
-    pulados = [r for r in resultados if r["ok"] is None]
+    pulados = [r for r in principais if r["ok"] is None]
     L += ["", f"**Taxa de acerto:** {len(ok_)}/{len(exec_)} casos aprovados"
               + (f" ({len(ok_) / len(exec_):.0%} de {len(exec_)} executados)" if exec_ else "")
               + (f"; {len(pulados)} não executado(s) por falta de MCP/Blender"
@@ -362,6 +460,17 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
     else:
         L += ["**Análise dos erros:** nenhuma falha nos casos executados. Os limites continuam nos casos "
               "🔥 (reformulação de busca e recusas), que dependem do modelo e podem falhar em outra rodada."]
+    if extras:
+        L += ["", "### Casos altamente desafiadores (fora da taxa principal)", "",
+              "Os dois casos abaixo medem limites que permanecem mesmo em modelos maiores: a premissa "
+              "falsa de versão (11) testa a fidelidade ao acervo contra o prior do modelo, e a "
+              "orquestração sob restrições (12) testa a disciplina de processo com avaliação granular "
+              "em cinco pontos. Reprovação ou parcial aqui é resultado informativo — documenta o teto "
+              "observado, não é bug — e permite comparar escalas de modelo.", ""]
+        L += linhas_tabela(extras)
+        L += ["", "**Leitura dos extras:**", ""]
+        for r in extras:
+            L.append(f"- **Caso {r['n']} — {r['nome']}:** {_marca(r['ok'])} — {r['dica']}")
     if evidencia:
         L += ["", "### Evidências (trace do grafo por caso)", ""]
         for r in resultados:
@@ -375,7 +484,7 @@ def gerar_markdown(resultados: list[dict], avisos: list[str], rec: Recursos, evi
 
 
 # -------------------------------------------------------------------- main ----
-async def roda(casos_escolhidos: set[int] | None) -> tuple[list[dict], list[str], Recursos]:
+async def roda(casos_escolhidos: set[int] | None, pausa: int = 0) -> tuple[list[dict], list[str], Recursos]:
     proprio, comunidade, avisos = await carregar_mcp()
     mcp_tools = [proprio["verificar_api"]] if proprio and "verificar_api" in proprio else []
     try:
@@ -392,12 +501,26 @@ async def roda(casos_escolhidos: set[int] | None) -> tuple[list[dict], list[str]
         casos = montar_casos(g, proprio, comunidade, stamp)
         if casos_escolhidos:
             casos = [c for c in casos if c["n"] in casos_escolhidos]
-        for c in casos:
-            print(f"[caso {c['n']}/10] {c['nome']} …", flush=True)
-            try:
-                ok, obtido, evid, trace = await c["runner"]()
-            except Exception as e:
-                ok, obtido, evid, trace = False, f"ERRO no caso: {str(e)[:300]}", [], []
+        for i, c in enumerate(casos):
+            if pausa and i:
+                print(f"           ⏳ pausa de {pausa}s entre casos (quota do plano gratuito)…", flush=True)
+                await asyncio.sleep(pausa)
+            print(f"[caso {c['n']}{' (extra, fora da taxa)' if c.get('extra') else ''}] {c['nome']} …", flush=True)
+            ok = obtido = evid = trace = None
+            for tentativa in range(3):                     # 1ª tentativa + 2 retries no 429
+                try:
+                    ok, obtido, evid, trace = await c["runner"]()
+                    break
+                except Exception as e:
+                    msg = str(e)
+                    if _estourou_quota(msg) and tentativa < 2:
+                        espera = 60 * (tentativa + 1)
+                        print(f"           ⏳ 429 (quota estourou); espero {espera}s e tento de novo "
+                              f"(tentativa {tentativa + 2}/3)…", flush=True)
+                        await asyncio.sleep(espera)
+                        continue
+                    ok, obtido, evid, trace = False, f"ERRO no caso: {msg[:300]}", [], []
+                    break
             resultados.append({**{k: v for k, v in c.items() if k != "runner"},
                                "ok": ok, "obtido": obtido, "evidencia": evid, "trace": trace})
             print(f"           {_marca(ok) + (' não executado' if ok is None else '')}", flush=True)
@@ -405,8 +528,10 @@ async def roda(casos_escolhidos: set[int] | None) -> tuple[list[dict], list[str]
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Os 10 casos de teste da tarefa contra o assistente real.")
-    ap.add_argument("--casos", help="números separados por vírgula (ex.: 2,9,10)")
+    ap = argparse.ArgumentParser(description="Os 12 casos de teste (10 principais + 2 extras fora da taxa) contra o assistente real.")
+    ap.add_argument("--casos", help="números separados por vírgula (ex.: 2,9,10; 11 e 12 são os extras)")
+    ap.add_argument("--pausa", type=int, default=0,
+                    help="segundos de espera entre casos, para caber na quota do plano gratuito (ex.: 45)")
     ap.add_argument("--sem-evidencia", action="store_true", help="não incluir o trace por caso no markdown")
     ap.add_argument("--saida", default=str(ROOT / "docs" / "casos_de_teste.md"))
     args = ap.parse_args()
@@ -417,7 +542,7 @@ def main() -> None:
         raise SystemExit(f"Índice da documentação não encontrado: {e}")
 
     escolhidos = {int(x) for x in args.casos.split(",")} if args.casos else None
-    resultados, avisos, rec = asyncio.run(roda(escolhidos))
+    resultados, avisos, rec = asyncio.run(roda(escolhidos, args.pausa))
 
     md = gerar_markdown(resultados, avisos, rec, evidencia=not args.sem_evidencia)
     saida = Path(args.saida)
@@ -429,13 +554,19 @@ def main() -> None:
                                  "modelo": f"{settings.rag_provider}:{settings.rag_model}",
                                  "casos": resultados}, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    exec_ = [r for r in resultados if r["ok"] is not None]
+    principais = [r for r in resultados if r["n"] <= 10]
+    exec_ = [r for r in principais if r["ok"] is not None]
     ok_ = [r for r in exec_ if r["ok"]]
     print("\n" + "=" * 64)
     for r in resultados:
         print(f"  caso {r['n']:>2}  {r['nome']:<44} {_marca(r['ok'])}")
     print("=" * 64)
-    print(f"  Taxa de acerto: {len(ok_)}/{len(exec_)}" + (f" ({len(ok_) / len(exec_):.0%})" if exec_ else ""))
+    print(f"  Taxa de acerto (casos 1–10): {len(ok_)}/{len(exec_)}"
+          + (f" ({len(ok_) / len(exec_):.0%})" if exec_ else ""))
+    extras = [r for r in resultados if r["n"] > 10 and r["ok"] is not None]
+    if extras:
+        print("  Desafios extras (fora da taxa): "
+              + ", ".join(f"caso {r['n']} {_marca(r['ok'])}" for r in extras))
     print(f"  Tabela pronta: {saida}")
     print(f"  Resultado bruto (respostas completas + trace): {bruto}")
 
